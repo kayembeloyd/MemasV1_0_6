@@ -11,17 +11,23 @@ import ToDoItem from '../components/ToDoItem';
 import MiddleMan from '../database/MiddleMan';
 
 
-export default function OverViewScreen(){
+export default function OverViewScreen({ navigation }){
+
+    const mSearchBarOnPressHandler = () => { navigation.navigate('EquipmentSearchScreen'); }
+    const mScanButtonOnPressHandler = () => { navigation.navigate('ScanScreen'); }
+    const addEquipmentPressHandler = () => { navigation.navigate('AddEquipmentScreen'); }
+    const checkEquipmentPressHandler = () => { navigation.navigate('EquipmentSearchScreen'); }
+
     return (
         <ScrollView>
             <View style={styles.container}>
                 <Text>Overview Screen</Text>
-                <MSearchBar/>
-                <MScanButton/>
+                <MSearchBar onPress={mSearchBarOnPressHandler}/>
+                <MScanButton onPress={mScanButtonOnPressHandler}/>
                 <View style={styles.cardsContainer}>
                     <MCard cardTitle='Activities'>
-                        <MButton text='add equipment'/>
-                        <MButton text='check equipment'/>
+                        <MButton text='add equipment' onPress={addEquipmentPressHandler}/>
+                        <MButton text='check equipment' onPress={checkEquipmentPressHandler}/>
                     </MCard>
 
                     <MCard cardTitle='Todo'>
