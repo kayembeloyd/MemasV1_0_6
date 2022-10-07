@@ -15,7 +15,6 @@ export default function MCard(props) {
 const styles = StyleSheet.create({
     container: {
         flex:1,
-        maxWidth:500,
         minWidth:300,
         backgroundColor: 'yellow',
         padding: 15,
