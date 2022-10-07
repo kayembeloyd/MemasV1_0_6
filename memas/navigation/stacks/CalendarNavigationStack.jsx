@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import EquipmentSearchScreen from '../../screens/EquipmentScreen'
 import CalendarScreen from '../../screens/CalendarScreen'
 
-import Header from '../../components/MHeader'
+import MHeader from '../../components/custom/MHeader'
 
 const stack = createNativeStackNavigator();
 

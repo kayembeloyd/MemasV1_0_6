@@ -7,7 +7,7 @@ import ScanScreen from '../../screens/ScanScreen'
 import EquipmentScreen from '../../screens/EquipmentScreen'
 import EquipmentSearchScreen from '../../screens/EquipmentScreen'
 
-import MHeader from '../../components/MHeader'
+import MHeader from '../../components/custom/MHeader'
 
 const stack = createNativeStackNavigator();
 

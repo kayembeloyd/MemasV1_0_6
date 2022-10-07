@@ -1,6 +1,6 @@
 import React  from 'react';
 
-import MHeader from '../../components/MHeader'
+import MHeader from '../../components/custom/MHeader'
 
 import AddMaintenanceLogScreen from '../../screens/AddMaintenanceLogScreen'
 import EquipmentSearchScreen from '../../screens/EquipmentSearchScreen'

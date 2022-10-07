@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native'
 export default function MCard(props) {
     return (
         <View style={styles.container}>
-            <Text style={styles.cardTitle}>CardTitle</Text>
+            <Text style={styles.cardTitle}>{props.cardTitle}</Text>
             <View style={styles.cardContent}>
                 { props.children }
             </View>

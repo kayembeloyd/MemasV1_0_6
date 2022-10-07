@@ -1,8 +1,11 @@
 import React from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import MCard from '../components/MCard';
-import MScanButton from '../components/MScanButton';
-import MSearchBar from '../components/MSearchBar';
+
+import MButton from '../components/custom/MButton';
+import MCard from '../components/custom/MCard';
+import MScanButton from '../components/custom/MScanButton';
+import MSearchBar from '../components/custom/MSearchBar';
+
 import MiddleMan from '../database/MiddleMan';
 
 
@@ -13,11 +16,11 @@ export default function OverViewScreen(){
             <MSearchBar/>
             <MScanButton/>
             <View style={styles.cardsContainer}>
-                <MCard>
-                    <Text>dfefe</Text>
+                <MCard cardTitle='Todo'>
+                    <MButton text='add ToDo'/>
                 </MCard>
 
-                <MCard>
+                <MCard cardTitle='Report'>
                     <Text>dfefe</Text>
                 </MCard>
             </View>
@@ -41,5 +44,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'green',
         width: '100%',
         padding: 5,
+        marginTop: 5,
     },
 })

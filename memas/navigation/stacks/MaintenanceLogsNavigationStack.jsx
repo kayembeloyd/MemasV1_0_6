@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MaintenanceLogsScreen from '../../screens/MaintenanceLogsScreen'
 import MaintenanceLogSearchScreen from '../../screens/MaintenanceLogSearchScreen'
 
-import MHeader from '../../components/MHeader'
+import MHeader from '../../components/custom/MHeader'
 
 const stack = createNativeStackNavigator();
 
