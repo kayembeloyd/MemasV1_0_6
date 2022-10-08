@@ -32,7 +32,6 @@ export default class MiddleMan {
         s_(key_, value_);
     }
 
-
     static getData(key_){
         const s_ = async (k_) => {
             try {
@@ -44,6 +43,14 @@ export default class MiddleMan {
         }
 
         return s_(key_)
+    }
+
+    static setLastEquipmentID(id) {
+        this.sendData('last_equipment_id', id)
+    }
+
+    static getNewID(){
+        return this.getData('last_equipment_id')    
     }
 
 }
