@@ -25,11 +25,15 @@ export default function EquipmentsNavigationStack() {
         <stack.Screen 
           name="AddEquipmentScreen" 
           component={AddEquipmentScreen} 
-          options={{ title: 'Add Equipment Screen',}}/>
+          options={{ 
+            title: 'Add Equipment Screen',
+            headerShadowVisible: false,}}/>
         <stack.Screen 
           name="EquipmentScreen" 
           component={EquipmentScreen} 
-          options={{ title: 'Equipment Screen',}}/>
+          options={{ 
+            title: 'Equipment Screen', 
+            headerShadowVisible: false, }}/>
         <stack.Screen 
           name="EquipmentSearchScreen" 
           component={EquipmentSearchScreen} 
