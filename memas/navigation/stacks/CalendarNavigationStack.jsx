@@ -15,7 +15,7 @@ export default function CalendarNavigationStack({ navigation }) {
 				component={CalendarScreen} 
 				options={({ navigation }) => {
 					return {
-					  headerTitle: () => <Header navigation={navigation} title='Calendar'/>,
+					  headerTitle: () => <MHeader navigation={navigation} title='Calendar'/>,
 					  headerShadowVisible: false,
 					}
 			}}/>

@@ -1,22 +1,23 @@
 import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 
-export default function EquipmentItem ({ name, department, make, model, tag, status }) {
+export default function EquipmentItem ({ name, department, make, model, tag, status, onPress }) {
     return (
-        <View style={styles.container}> 
-            <View style={styles.equipmentDescs}>
-                <View style={styles.equipmentHeader}>
-                    <Text style={styles.equipmentHeaderText}>{tag}</Text>
-                    <Text>{status}</Text>
-                </View>
+        <TouchableOpacity onPress={onPress}>
+            <View style={styles.container}> 
+                <View style={styles.equipmentDescs}>
+                    <View style={styles.equipmentHeader}>
+                        <Text style={styles.equipmentHeaderText}>{tag}</Text>
+                        <Text>{status}</Text>
+                    </View>
 
-                <Text style={styles.equipmentMainDesc}>{name}</Text>
-                <Text style={styles.equipmentDesc}>{department}</Text>
-                <Text style={styles.equipmentDesc}>{make}</Text>
-                <Text style={styles.equipmentDesc}>{model}</Text>
+                    <Text style={styles.equipmentMainDesc}>{name}</Text>
+                    <Text style={styles.equipmentDesc}>{department}</Text>
+                    <Text style={styles.equipmentDesc}>{make}</Text>
+                    <Text style={styles.equipmentDesc}>{model}</Text>
+                </View>
             </View>
-            
-        </View>
+        </TouchableOpacity>
     );
 }
 

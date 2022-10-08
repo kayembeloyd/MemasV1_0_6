@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { StyleSheet, Text, View } from 'react-native';
 
-export default function EquipmentScreen(){
+export default function EquipmentScreen({ route, navigation }){
+    
+    const {item} = route.params;
+
     return (
         <View style={styles.container}>
-            <Text>Equipment Screen</Text>
+            <Text>{item.equipmentName}</Text>
         </View>
     )
 }

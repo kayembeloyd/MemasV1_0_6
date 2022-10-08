@@ -19,6 +19,9 @@ export default function EquipmentsScreen({ navigation }){
     const [equipments, setEquipments] = useState([]) 
 
     const addEquipmentOnPressHandler = () => { navigation.navigate('AddEquipmentScreen'); }
+    const equipmentItemOnPressHandler = (item) => {
+        navigation.navigate('EquipmentScreen', {item}); 
+    }
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
@@ -47,10 +50,12 @@ export default function EquipmentsScreen({ navigation }){
                         renderItem={({ item }) => (
                             <EquipmentItem 
                                 name={item.equipmentName} 
-                                department={item.department} 
+                                department={item.equipmentDepartment} 
                                 model='model' 
+                                make='make'
                                 tag='tag'
-                                status='To be determined' />
+                                status='To be determined'
+                                onPress={() => equipmentItemOnPressHandler(item)} />
                         )}
                     /> 
                 </View>
