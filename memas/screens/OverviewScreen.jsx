@@ -10,7 +10,6 @@ import ToDoItem from '../components/ToDoItem';
 
 import MiddleMan from '../database/MiddleMan';
 
-
 export default function OverViewScreen({ navigation }){
 
     const mSearchBarOnPressHandler = () => { navigation.navigate('EquipmentSearchScreen'); }

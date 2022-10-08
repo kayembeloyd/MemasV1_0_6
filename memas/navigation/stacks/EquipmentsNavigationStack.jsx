@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import EquipmentsScreen from '../../screens/EquipmentsScreen'
 import EquipmentSearchScreen from '../../screens/EquipmentSearchScreen'
 import EquipmentScreen from '../../screens/EquipmentScreen'
+import AddEquipmentScreen from '../../screens/AddEquipmentScreen'
 import ScanScreen from '../../screens/ScanScreen'
 
 import MHeader from '../../components/custom/MHeader'
@@ -21,6 +22,10 @@ export default function EquipmentsNavigationStack() {
               headerShadowVisible: false,
             }
           }}/>
+        <stack.Screen 
+          name="AddEquipmentScreen" 
+          component={AddEquipmentScreen} 
+          options={{ title: 'Add Equipment Screen',}}/>
         <stack.Screen 
           name="EquipmentScreen" 
           component={EquipmentScreen} 
