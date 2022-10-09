@@ -8,7 +8,6 @@ export default function MSearchBar ({ onPress }){
         <TouchableOpacity style={{
             width:'100%', 
             maxWidth: 500, 
-            marginHorizontal: 16, 
             marginVertical: 7
         }} onPress={onPress}>
             <View style={styles.container}>
