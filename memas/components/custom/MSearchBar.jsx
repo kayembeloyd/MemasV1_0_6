@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 
 import { MaterialIcons } from '@expo/vector-icons';
 
-export default function MSearchBar ({ onPress }){
+export default function MSearchBar ({ onPress, hint }){
     return (
         <TouchableOpacity style={{
             width:'100%', 
@@ -11,8 +11,8 @@ export default function MSearchBar ({ onPress }){
             marginVertical: 7
         }} onPress={onPress}>
             <View style={styles.container}>
-                <MaterialIcons style={ styles.searchIcon } name="search" size={24}  />
-                <Text style={ styles.searchText }>Search</Text>
+                <MaterialIcons style={ styles.searchIcon } name="search" size={20}  />
+                <Text style={ styles.searchText }>{hint}</Text>
             </View>
         </TouchableOpacity>        
     )
@@ -21,7 +21,7 @@ export default function MSearchBar ({ onPress }){
 const styles = StyleSheet.create({
     container: { 
         width: '100%',
-        height: 53,
+        height: 43,
         backgroundColor: '#f5f5f5',
         borderRadius: 10,
         flexDirection: 'row',
@@ -37,7 +37,6 @@ const styles = StyleSheet.create({
     searchText: {
         flex: 1,
         color: "#888888",
-        backgroundColor: 'green',
         fontWeight: "500",
     }
 })

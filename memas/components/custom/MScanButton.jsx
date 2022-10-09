@@ -17,7 +17,6 @@ export default function MScanButton({ onPress }) {
 
 const styles = StyleSheet.create({
     container:{
-        backgroundColor: 'green',
         flexDirection: 'row',
         alignItems: 'center',
     }, 

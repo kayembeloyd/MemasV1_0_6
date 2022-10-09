@@ -20,9 +20,12 @@ export default function OverViewScreen({ navigation }){
     return (
         <ScrollView>
             <View style={styles.container}>
-                <Text>Overview Screen</Text>
-                <MSearchBar onPress={mSearchBarOnPressHandler}/>
-                <MScanButton onPress={mScanButtonOnPressHandler}/>
+                <View style={{width:'100%', alignItems:'center', paddingHorizontal: 16, paddingVertical:7}}>
+                    <MSearchBar onPress={mSearchBarOnPressHandler} hint='search equipment'/>
+                </View>
+                <View style={{width:'100%', alignItems:'center', marginTop: 13,}}>
+                    <MScanButton onPress={mScanButtonOnPressHandler}/>
+                </View>
                 <View style={styles.cardsContainer}>
                     <MCard cardTitle='Activities'>
                         <MButton text='add equipment' onPress={addEquipmentPressHandler}/>
@@ -54,8 +57,7 @@ export default function OverViewScreen({ navigation }){
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 5,
-        backgroundColor: 'red',
+        backgroundColor: 'white',
         alignItems: 'center'
     },
 
@@ -64,9 +66,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap:'wrap',
         justifyContent:'space-around',
-        backgroundColor: 'green',
         width: '100%',
-        padding: 5,
-        marginTop: 5,
+        marginTop: 42,
     },
 })

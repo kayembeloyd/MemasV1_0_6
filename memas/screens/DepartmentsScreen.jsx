@@ -6,11 +6,12 @@ import DepartmentItem from '../components/DepartmentItem';
 
 export default function DepartmentsScreen({ navigation }){
     return (
-        <View style={styles.container}>
-            
-            <MSearchBar onPress={() => {navigation.navigate('DepartmentSearchScreen');}} placeHolder={"Search department"}/>
+        <View style={styles.container}> 
 
             <ScrollView style={styles.scrollView}>
+                <View>
+                    <MSearchBar hint='search departments' onPress={() => {navigation.navigate('DepartmentSearchScreen');}} placeHolder={"Search department"}/>
+                </View>
                 <View style={styles.departmentscontainer}>
                     <DepartmentItem fontAwesone5IconName="hospital" text="Last one"/>
                     <DepartmentItem fontAwesone5IconName="hospital" text="First one"/>
@@ -48,7 +49,7 @@ export default function DepartmentsScreen({ navigation }){
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'red',
+        backgroundColor: 'white',
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
@@ -65,7 +66,6 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         justifyContent: 'space-around',
         maxWidth: 900,
-        backgroundColor: 'grey',
         alignSelf: 'center'
     },
 

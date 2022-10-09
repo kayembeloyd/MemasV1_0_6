@@ -60,6 +60,7 @@ const styles = StyleSheet.create({
     }, 
     searchBarContainer:{
         backgroundColor: 'gold',
-        alignItems: 'center'
+        alignItems: 'center',
+        padding: 10
     }
 })

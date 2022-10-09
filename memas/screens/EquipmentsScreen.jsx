@@ -39,7 +39,7 @@ export default function EquipmentsScreen({ navigation }){
         <View style={styles.mainContainer}>
             <ScrollView stickyHeaderIndices={[1]} stickyHeaderHiddenOnScroll={true}>
                 <View style={styles.container}>
-                    <MSearchBar/>
+                    <MSearchBar hint='search equipment'/>
                     <MButton text='add equipment' onPress={addEquipmentOnPressHandler}/>
                 </View>
                 <FilterBar filterItems={filterItems}/>
@@ -67,13 +67,12 @@ export default function EquipmentsScreen({ navigation }){
 const styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
-        backgroundColor: 'red'
+        backgroundColor: 'white'
     },
 
     container: {
         flex: 1,
         padding: 5,
-        backgroundColor: 'blue',
         alignItems: 'center'
     }
 })

@@ -10,7 +10,7 @@ export default function CalendarScreen(){
         <ScrollView>
             <View style={styles.container}>
                 <View style={styles.calendarContainer}>
-                    <Calendar/>
+                    <Calendar style={{marginBottom: 13}}/>
                     <MButton text='Add Equipment Service Schedule'/>
                     <MButton text='Add task'/>
                 </View>
@@ -33,20 +33,19 @@ const styles = StyleSheet.create({
         flex:1,
         flexDirection: 'row',
         flexWrap: 'wrap',
-        backgroundColor: 'red',
+        backgroundColor: 'white',
         padding: 2,
         justifyContent: 'center'
     },
 
     calendarContainer: {
         width: 360,
-        backgroundColor: 'gold'
     },
 
     scheduleContainer:{
         flex:1,
-        backgroundColor: 'violet',
-        minWidth: 360
+        minWidth: 360,
+        marginTop: 13,
     }
 
 })

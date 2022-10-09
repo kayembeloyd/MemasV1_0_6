@@ -35,7 +35,6 @@ const styles = StyleSheet.create({
 
     filterItems: {
         flexDirection: 'row',
-        backgroundColor: 'yellow',
         width: '100%',
         alignItems:'center',
         paddingLeft: 10,

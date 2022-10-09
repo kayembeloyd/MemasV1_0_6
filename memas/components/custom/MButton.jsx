@@ -15,12 +15,13 @@ export default function MButton({ text, onPress }) {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'green',
+        backgroundColor: '#E3E3E3',
         paddingVertical: 13,
         paddingHorizontal: 15,
         marginVertical: 2,
         marginHorizontal: 2,
         alignItems: 'center',
+        borderRadius: 10,
     }, 
 
     text: {
