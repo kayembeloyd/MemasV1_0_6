@@ -25,24 +25,28 @@ export default function MaintenanceLogsScreen({ navigation }){
                     onPress={() => {
                         navigation.navigate('MaintenanceLogSearchScreen');
                         }} 
-                    placeHolder={"Search equipment in logs"}/>
+                    hint='search equipment in logs'/>
                 </View>
 
                 <FilterBar filterItems={filterItems}/>
                 <View style={styles.maintenanceLogItemsContainer}>
-                    <MaintenanceLogItem />
-                    <MaintenanceLogItem />
-                    <MaintenanceLogItem />
-                    <MaintenanceLogItem />
-                    <MaintenanceLogItem />
-                    <MaintenanceLogItem />
-                    <MaintenanceLogItem />
-                    <MaintenanceLogItem />
-                    <MaintenanceLogItem />
-                    <MaintenanceLogItem />
-                    <MaintenanceLogItem />
-                    <MaintenanceLogItem />
-                    <MaintenanceLogItem />
+                    <MaintenanceLogItem onPress={() => { 
+                        navigation.navigate('MaintenanceLogScreen')
+                    }}/>
+                    
+                    <MaintenanceLogItem onPress={() => { navigation.navigate('MaintenanceLogScreen')}}/>
+                    <MaintenanceLogItem onPress={() => { navigation.navigate('MaintenanceLogScreen')}}/>
+                    <MaintenanceLogItem onPress={() => { navigation.navigate('MaintenanceLogScreen')}}/>
+                    <MaintenanceLogItem onPress={() => { navigation.navigate('MaintenanceLogScreen')}}/>
+                    <MaintenanceLogItem onPress={() => { navigation.navigate('MaintenanceLogScreen')}}/>
+                    <MaintenanceLogItem onPress={() => { navigation.navigate('MaintenanceLogScreen')}}/>
+                    <MaintenanceLogItem onPress={() => { navigation.navigate('MaintenanceLogScreen')}}/>
+                    <MaintenanceLogItem onPress={() => { navigation.navigate('MaintenanceLogScreen')}}/>
+                    <MaintenanceLogItem onPress={() => { navigation.navigate('MaintenanceLogScreen')}}/>
+                    <MaintenanceLogItem onPress={() => { navigation.navigate('MaintenanceLogScreen')}}/>
+                    <MaintenanceLogItem onPress={() => { navigation.navigate('MaintenanceLogScreen')}}/>
+                    <MaintenanceLogItem onPress={() => { navigation.navigate('MaintenanceLogScreen')}}/>
+                    <MaintenanceLogItem onPress={() => { navigation.navigate('MaintenanceLogScreen')}}/>
                 </View>
             </ScrollView>
 
@@ -53,13 +57,14 @@ export default function MaintenanceLogsScreen({ navigation }){
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'green'
+        backgroundColor: 'white'
     }, 
+
     maintenanceLogItemsContainer: {
 
     }, 
+
     searchBarContainer:{
-        backgroundColor: 'gold',
         alignItems: 'center',
         padding: 10
     }

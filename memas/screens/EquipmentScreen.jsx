@@ -22,7 +22,7 @@ export default function EquipmentScreen({ route, navigation }){
             <ScrollView>
                 <View style={styles.cardsContainer}>
                     <MCard cardTitle='Actions'>
-                        <MButton text='Maintenance Logs'/>
+                        <MButton text='Maintenance Logs' onPress={() => { navigation.navigate('MaintenanceLogsScreen2')}}/>
                         <MButton text='Corrective Maintenance'/>
                         <MButton text='Preventive Maintenance'/>
                         <MFrozenInput />

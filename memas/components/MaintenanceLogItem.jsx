@@ -1,18 +1,20 @@
 import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 
-export default function EquipmentItem () {
+export default function EquipmentItem ({ onPress }) {
     return (
-        <View style={styles.container}> 
-            <View style={styles.equipmentDescs}>
-                <Text style={styles.equipmentMainDesc}>Oxygen Concentrator</Text>
-                <Text style={styles.equipmentDesc}>Log Type: Preventive Maintenance</Text>
-                <Text style={styles.equipmentDesc}>Dept: Maternity</Text>
-                <Text style={styles.equipmentDesc}>Make: Canta</Text>
-                <Text style={styles.equipmentDesc}>Model: VN-WS-08</Text>
+        <TouchableOpacity onPress={onPress}>
+            <View style={styles.container}> 
+                <View style={styles.equipmentDescs}>
+                    <Text style={styles.equipmentDesc}>09-Sept-2022 14:00</Text>
+                    <Text style={styles.equipmentMainDesc}>Oxygen Concentrator (M01-002)</Text>
+                    <Text style={styles.equipmentDesc}>Log Type: Preventive Maintenance</Text>
+                    <Text style={styles.equipmentDesc}>Dept: Maternity</Text>
+                    <Text style={styles.equipmentDesc}>Make: Canta</Text>
+                    <Text style={styles.equipmentDesc}>Model: VN-WS-08</Text>
+                </View>
             </View>
-            
-        </View>
+        </TouchableOpacity>
     );
 }
 

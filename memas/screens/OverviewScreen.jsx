@@ -28,8 +28,8 @@ export default function OverViewScreen({ navigation }){
                 </View>
                 <View style={styles.cardsContainer}>
                     <MCard cardTitle='Activities'>
-                        <MButton text='add equipment' onPress={addEquipmentPressHandler}/>
-                        <MButton text='check equipment' onPress={checkEquipmentPressHandler}/>
+                        <MButton text='Add equipment' onPress={addEquipmentPressHandler}/>
+                        <MButton text='Check equipment' onPress={checkEquipmentPressHandler}/>
                     </MCard>
 
                     <MCard cardTitle='Todo'>

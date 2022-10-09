@@ -25,9 +25,7 @@ export default function EquipmentsScreen({ navigation }){
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
-            console.log('Equipments Screen opened');
             MiddleMan.getData('equipments').then((d) => {
-                console.log(d)
                 d !== null ? setEquipments(d) : setEquipments([]);
             })
         });
