@@ -8,6 +8,7 @@ import ScanScreen from '../../screens/ScanScreen'
 
 import MaintenanceLogsScreen from '../../screens/MaintenanceLogsScreen';
 import MaintenanceLogScreen from '../../screens/MaintenanceLogScreen';
+import AddMaintenanceLogScreen from '../../screens/AddMaintenanceLogScreen';
 
 import MHeader from '../../components/custom/MHeader'
 
@@ -40,19 +41,33 @@ export default function EquipmentsNavigationStack() {
         <stack.Screen 
           name="EquipmentSearchScreen" 
           component={EquipmentSearchScreen} 
-          options={{ title: 'Equipment Search Screen',}}/>
+          options={{ 
+            title: 'Equipment Search Screen',
+            headerShadowVisible: false}}/>
         <stack.Screen 
           name="ScanScreen" 
           component={ScanScreen} 
-          options={{ title: 'Scan Screen',}}/>
+          options={{ 
+            title: 'Scan Screen',
+            headerShadowVisible: false}}/>
         <stack.Screen 
           name="MaintenanceLogsScreen2" 
           component={MaintenanceLogsScreen} 
-          options={{ title: 'Equip. Maintenance Logs Screen',}}/>
+          options={{ 
+            title: 'Equip. Maintenance Logs Screen',
+            headerShadowVisible: false}}/>
         <stack.Screen 
           name="MaintenanceLogScreen" 
           component={MaintenanceLogScreen} 
-          options={{ title: 'Maintenance Log Screen',}}/>
+          options={{ 
+            title: 'Maintenance Log Screen',
+            headerShadowVisible: false}}/>
+        <stack.Screen 
+          name="AddMaintenanceLogScreen" 
+          component={AddMaintenanceLogScreen} 
+          options={{ 
+            title: 'Add Maintenance Log Screen',
+            headerShadowVisible: false}}/>
       </stack.Navigator>
     );
   }

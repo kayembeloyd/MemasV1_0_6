@@ -9,7 +9,7 @@ export default function DepartmentsScreen({ navigation }){
         <View style={styles.container}> 
 
             <ScrollView style={styles.scrollView}>
-                <View>
+                <View style={{alignSelf:'center', width: '100%', alignItems: 'center'}}>
                     <MSearchBar hint='search departments' onPress={() => {navigation.navigate('DepartmentSearchScreen');}} placeHolder={"Search department"}/>
                 </View>
                 <View style={styles.departmentscontainer}>

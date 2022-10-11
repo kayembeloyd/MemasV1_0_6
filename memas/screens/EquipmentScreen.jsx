@@ -23,8 +23,8 @@ export default function EquipmentScreen({ route, navigation }){
                 <View style={styles.cardsContainer}>
                     <MCard cardTitle='Actions'>
                         <MButton text='Maintenance Logs' onPress={() => { navigation.navigate('MaintenanceLogsScreen2')}}/>
-                        <MButton text='Corrective Maintenance'/>
-                        <MButton text='Preventive Maintenance'/>
+                        <MButton text='Corrective Maintenance' onPress={() => { navigation.navigate('AddMaintenanceLogScreen', { maintenanceType: 'corrective'}) }}/>
+                        <MButton text='Preventive Maintenance' onPress={() => { navigation.navigate('AddMaintenanceLogScreen', { maintenanceType: 'Preventive'}) }}/>
                         <MFrozenInput />
                         <MFrozenInput />
                     </MCard>
