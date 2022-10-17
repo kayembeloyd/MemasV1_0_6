@@ -6,6 +6,7 @@ import MCard from '../components/custom/MCard';
 import MInput from '../components/custom/MInput';
 import MInputModal from '../components/custom/MInputModal';
 import MiddleMan from '../database/MiddleMan';
+import MiddleManV2 from '../database/MiddleManV2';
 
 export default function AddEquipmentScreen(){
 
@@ -74,27 +75,12 @@ export default function AddEquipmentScreen(){
 
                 <View style={styles.buttonContainer}>
                     <MButton text='add equipment' onPress={() => {
-                        console.log('Wow 1')
-
-                        MiddleMan.getNewID().then((d) => {                            
-                            console.log('Wow 2')
+                    
+                        equipment.equipmentName = equipmentName
+                        equipment.equipmentDepartment = equipmentDepartment
+                        equipment.technicalSpecifications = technicalSpecifications
                         
-                            equipment.id = d != null ? d + 1 : 0
-
-                            equipment.equipmentName = equipmentName
-                            equipment.equipmentDepartment = equipmentDepartment
-                            equipment.technicalSpecifications = technicalSpecifications
-                            
-                            MiddleMan.getData('equipments').then((d) => {
-                                console.log('Wow 3')
-                                
-                                const equipments = d !== null ? d : []
-                                equipments.push(equipment)
-
-                                MiddleMan.sendData('equipments', equipments)
-                                MiddleMan.setLastEquipmentID(equipment.id)
-                            })
-                        }) 
+                        MiddleManV2.LSaveEquipmentsPush(equipment) 
                     }}/>
                 </View>
 
@@ -107,20 +93,18 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 5,
-        backgroundColor: 'red',
+        backgroundColor: 'white',
     },
     cardsContainer: {
         flex: 1,
         flexDirection: 'row',
         flexWrap:'wrap',
         justifyContent:'space-around',
-        backgroundColor: 'green',
         width: '100%',
         padding: 5,
         marginTop: 5,
     },
     buttonContainer: {
-        backgroundColor: 'gold',
         width: '70%',
         maxWidth: 500,
         alignSelf: 'center',

@@ -1,23 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-/*
-// Example usage 
-
-
-
-import MiddleMan from '../database/MiddleMan';
-
-function onPressHandler(){
-    MiddleMan.getData('equipment').then((d_) => {
-                console.log(d_)
-            })
-
-    MiddleMan.sendData('equipment', 'Oxygen concentrator')
-}
-
-
-*/
-
 export default class MiddleMan {
     static sendData(key_, value_){
         const s_ = async (k_, v_) => {
@@ -51,6 +33,10 @@ export default class MiddleMan {
 
     static getNewID(){
         return this.getData('last_equipment_id')    
+    }
+
+    syncChangesWithServer(){
+        
     }
 
 }

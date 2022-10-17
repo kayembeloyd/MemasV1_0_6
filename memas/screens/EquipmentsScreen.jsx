@@ -6,6 +6,7 @@ import MSearchBar from '../components/custom/MSearchBar';
 import EquipmentItem from '../components/EquipmentItem';
 import FilterBar from '../components/FilterBar';
 import MiddleMan from '../database/MiddleMan';
+import MiddleManV2 from '../database/MiddleManV2';
 
 export default function EquipmentsScreen({ navigation }){
     const filterItems = [
@@ -25,9 +26,14 @@ export default function EquipmentsScreen({ navigation }){
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
-            MiddleMan.getData('equipments').then((d) => {
+            MiddleManV2.LGetEquipments().then((d) => {
                 d !== null ? setEquipments(d) : setEquipments([]);
             })
+            
+            /* 
+            MiddleMan.getData('equipments').then((d) => {
+                d !== null ? setEquipments(d) : setEquipments([]);
+            }) */
         });
 
         return unsubscribe;
