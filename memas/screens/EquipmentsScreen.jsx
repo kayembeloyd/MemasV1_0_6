@@ -62,7 +62,7 @@ export default function EquipmentsScreen({ navigation }){
                                 department='department' 
                                 model='model' 
                                 make='make'
-                                tag={item.assetTag}
+                                tag={item.asset_tag}
                                 status='To be determined'
                                 onPress={() => equipmentItemOnPressHandler(item)} />
                         )}

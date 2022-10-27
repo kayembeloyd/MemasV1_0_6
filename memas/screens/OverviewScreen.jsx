@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import MButton from '../components/custom/MButton';
@@ -16,6 +16,17 @@ export default function OverViewScreen({ navigation }){
     const mScanButtonOnPressHandler = () => { navigation.navigate('ScanScreen'); }
     const addEquipmentPressHandler = () => { navigation.navigate('AddEquipmentScreen'); }
     const checkEquipmentPressHandler = () => { navigation.navigate('EquipmentSearchScreen'); }
+
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            console.log('application loaded');
+
+            // Check internet connection
+            
+        });
+
+        return unsubscribe;
+    }, [ navigation ]);
 
     return (
         <ScrollView>

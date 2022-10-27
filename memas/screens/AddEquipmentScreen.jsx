@@ -83,8 +83,10 @@ export default function AddEquipmentScreen(){
                     <MButton text='add equipment' onPress={() => {
                     
                         equipment.name = name
-                        equipment.assetTag = assetTag
-                        equipment.technicalSpecifications = technicalSpecifications
+                        equipment.asset_tag = assetTag
+                        equipment.created_at = createdAt 
+                        equipment.updated_at = updatedAt 
+                        equipment.technical_specifications = technicalSpecifications
                         
                         MiddleManV2.LSaveEquipmentsPush(equipment) 
                     }}/>
