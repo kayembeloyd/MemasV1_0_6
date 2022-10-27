@@ -141,12 +141,29 @@ export default class MiddleManV2 {
     // Public Online 
     // Note these equipments will not be stored in the local database
     // They will be stored if clicked only 
-    static OLoadMoreEquipment(){
+    static OLoadMoreEquipment(page){
+        const loadEquipments = async (page) => {
+            try {
+                const response = await fetch(
+                    'https://memas106.000webhostapp.com/equipments?page=' + page + '&group_length=10&exceptions=0'
+                );
+
+                const data = await response.json();
+
+                return data;
+            } catch (error) {
+                console.error(error);
+                return null;
+            }
+        }
+
+        return loadEquipments(page);
+
+        /*
         return new Promise(function (myResolve, myReject){
             this.LGetEquipments().then((d) => {
                 const localEquipments = d
 
-                // Get an array of server id's only
                 serverCall('address', localEquipments).response((res) => {
                     if (res === null) myReject('error')
                     
@@ -155,7 +172,30 @@ export default class MiddleManV2 {
                     myResolve(newEquipments);
                 })
             }) 
-        });
+        }); 
+        */
+    }
+
+    static OTest(){
+        const getEquipment = async () => {
+            try {
+              const response = await fetch(
+                'https://memas106.000webhostapp.com/equipments/1'
+              );
+
+              const data = await response.json();
+
+              console.log({ data });
+              
+              /*
+              const json = await response.json();
+              return json.movies; */
+            } catch (error) {
+              console.error(error);
+            }
+        };
+
+        return getEquipment();
     }
 }
 

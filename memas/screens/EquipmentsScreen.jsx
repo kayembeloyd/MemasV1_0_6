@@ -29,6 +29,11 @@ export default function EquipmentsScreen({ navigation }){
             MiddleManV2.LGetEquipments().then((d) => {
                 d !== null ? setEquipments(d) : setEquipments([]);
             })
+
+            // MiddleManV2.OTest();
+            MiddleManV2.OLoadMoreEquipment(1).then((d) => {
+                console.log({ d });
+            })
             
             /* 
             MiddleMan.getData('equipments').then((d) => {
