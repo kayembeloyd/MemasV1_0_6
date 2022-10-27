@@ -25,7 +25,9 @@ export default function MInputModal({ title, onAddPress, onCancelPress}) {
 const styles = StyleSheet.create({
     container: {
         flex:1,
-        backgroundColor: 'blue',
+        backgroundColor: 'black',
+        opacity: 0.7,
+        zIndex:0,
         justifyContent: 'center',
         alignItems: 'center',
         paddingHorizontal: 10,

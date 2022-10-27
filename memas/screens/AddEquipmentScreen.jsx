@@ -13,11 +13,16 @@ export default function AddEquipmentScreen(){
     const equipment = {}
 
     // Equipment variables
-    const [equipmentName, setEquipmentName] = useState('')
-    const [equipmentDepartment, setEquipmentDepartment] = useState('')
+    const [id, setID] = useState(0)
+    const [oid, setOID] = useState(0)
+    const [name, setName] = useState('')
+    const [assetTag, setAssetTag] = useState('')
+    const [createdAt, setCreatedAt] = useState('')
+    const [updatedAt, setUpdatedAt] = useState('')
     const [technicalSpecifications, setTechnicalSpecifications] = useState([])
 
     const [technicalSpecificationsAddModalVisibility, setTechnicalSpecificationsAddModalVisibility] = useState(false) 
+
     return (
         <View style={styles.container}>
             <Modal visible={technicalSpecificationsAddModalVisibility}>
@@ -27,8 +32,9 @@ export default function AddEquipmentScreen(){
                         setTechnicalSpecifications((prevTechnicalSpecifications) => {
                             prevTechnicalSpecifications.push({
                                 id:prevTechnicalSpecifications.length > 0 ? prevTechnicalSpecifications[prevTechnicalSpecifications.length - 1].id + 1 : 0,
-                                name:keyI,
-                                value:valueI
+                                equipment_id:0,
+                                specification_name:keyI,
+                                specification_value:valueI
                             });
                             return prevTechnicalSpecifications;
                         });
@@ -43,11 +49,11 @@ export default function AddEquipmentScreen(){
                     <MCard cardTitle='General information'>
                         <MInput fieldName="Equipment name" fieldInitials="EN"
                             onChangeText={((t) => {
-                                setEquipmentName(t)
+                                setName(t)
                             })} />                      
-                        <MInput fieldName="Department" fieldInitials="D"
+                        <MInput fieldName="Asset tag" fieldInitials="AT"
                             onChangeText={((t) => {
-                                setEquipmentDepartment(t)
+                                setAssetTag(t)
                             })} />                      
                     </MCard>
 
@@ -56,11 +62,11 @@ export default function AddEquipmentScreen(){
                             keyExtractor={(item) => (item.id)}
                             data={technicalSpecifications}
                             renderItem={({ item }) => (
-                                <MInput fieldName={item.name} fieldInitials="D" fieldValue={item.value} 
+                                <MInput fieldName={item.specification_name} fieldInitials="D" fieldValue={item.specification_value} 
                                     onChangeText={((t) => {
                                         setTechnicalSpecifications((prevTechnicalSpecifications) => {
                                             const index = prevTechnicalSpecifications.findIndex(spec => spec.id === item.id);
-                                            prevTechnicalSpecifications[index].value = t
+                                            prevTechnicalSpecifications[index].specification_value = t
                                             return prevTechnicalSpecifications;
                                         });             
                                     })}/> 
@@ -76,8 +82,8 @@ export default function AddEquipmentScreen(){
                 <View style={styles.buttonContainer}>
                     <MButton text='add equipment' onPress={() => {
                     
-                        equipment.equipmentName = equipmentName
-                        equipment.equipmentDepartment = equipmentDepartment
+                        equipment.name = name
+                        equipment.assetTag = assetTag
                         equipment.technicalSpecifications = technicalSpecifications
                         
                         MiddleManV2.LSaveEquipmentsPush(equipment) 

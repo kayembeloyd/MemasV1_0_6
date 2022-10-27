@@ -58,11 +58,11 @@ export default function EquipmentsScreen({ navigation }){
                         keyExtractor={(item) => item.id}
                         renderItem={({ item }) => (
                             <EquipmentItem 
-                                name={item.equipmentName} 
-                                department={item.equipmentDepartment} 
+                                name={item.name} 
+                                department='department' 
                                 model='model' 
                                 make='make'
-                                tag='tag'
+                                tag={item.assetTag}
                                 status='To be determined'
                                 onPress={() => equipmentItemOnPressHandler(item)} />
                         )}
