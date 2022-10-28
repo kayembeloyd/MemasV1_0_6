@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react'
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
+import NetInfo from "@react-native-community/netinfo";
+
 import MButton from '../components/custom/MButton';
 import MCard from '../components/custom/MCard';
 import MScanButton from '../components/custom/MScanButton';
@@ -19,10 +21,17 @@ export default function OverViewScreen({ navigation }){
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
-            console.log('application loaded');
+            console.log('Checking internet connection...');
 
             // Check internet connection
-            
+            NetInfo.fetch().then(state => {
+                console.log("Connection type", state.type);
+                console.log("Is connected?", state.isConnected);
+
+                if (state.type){
+                    console.log("Syncing with the online database");
+                }
+            });
         });
 
         return unsubscribe;
