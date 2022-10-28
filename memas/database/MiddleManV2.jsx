@@ -98,43 +98,58 @@ export default class MiddleManV2 {
 
     // Public Local Online
     static Sync(){
-        // This synchronizes this the online database
+        return new Promise((resolve, reject) => {
+            this.LGetEquipments().then( async (lEquipments) => {
+                let sliceStart = 0
+                let sliceLength = 5
+                let sliceEnd = sliceStart + sliceLength
+                let slicing = true
+                let stopSlicing = false
+
+                while(slicing){
+                    if (sliceStart + sliceLength >= lEquipments.length) {
+                        sliceEnd = lEquipments.length
+                        stopSlicing = true
+                    }
+    
+                    const equipmentSlice = lEquipments.slice(sliceStart, sliceEnd)
+
+                    console.log(equipmentSlice);
+    
+                    await new Promise((resolve) => {
+                        setTimeout(() => {
+                            resolve("Timer completed 3 seconds of server call and response delay simulation")
+                        }, 10000);
+                    }).then((d) => console.log(d));
+
+                    // Long Server call
+                    /*try {
+                        const response = await fetch(
+                          'https://memas106.000webhostapp.com/equipments/update'
+                        );
+          
+                        const data = await response.json();
+          
+                        console.log({ data });
+          
+                      } catch (error) {
+                        console.error(error);
+                      }*/
+    
+                    if (stopSlicing){
+                        slicing = false
+                    }
         
-        // Upload all my items in the local database 5 at a time
-        let sliceStart = 0
-        let sliceLength = 5
-        let sliceEnd = sliceStart + sliceLength
-        let slicing = true
-        let stopSlicing = false
+                    sliceStart = sliceEnd
+                    sliceEnd = sliceStart + sliceLength
+                }
 
-        while(slicing){
-            if (sliceStart + sliceLength >= equipments.length()) {
-                sliceEnd = equipments.length() - 1
-                stopSlicing = true
-            }
+                resolve("Synchronization complete");
 
-            const equipmentSlice = equipments.slice(sliceStart, sliceEnd)
-
-            serverCall('address', equipmentSlice).response((res) => {
-                // Am expecting it to return an updated 
-                // version of whatever was sent 
-    
-                const updatedEquipments = JSON.parse(res)
-    
-                updatedEquipments.forEach(equipment => {
-                    this.LUpdateEquipment(equipment)
-                });
-                
-                // Local storage has been updated
             })
-        
-            if (stopSlicing){
-                slicing = false
-            }
+          });
 
-            sliceStart = sliceEnd
-            sliceEnd = sliceStart + sliceLength
-        }
+        
     }
 
 
@@ -158,22 +173,6 @@ export default class MiddleManV2 {
         }
 
         return loadEquipments(page);
-
-        /*
-        return new Promise(function (myResolve, myReject){
-            this.LGetEquipments().then((d) => {
-                const localEquipments = d
-
-                serverCall('address', localEquipments).response((res) => {
-                    if (res === null) myReject('error')
-                    
-                    const newEquipments = JSON.parse(res)
-                    
-                    myResolve(newEquipments);
-                })
-            }) 
-        }); 
-        */
     }
 
     static OTest(){
@@ -186,10 +185,7 @@ export default class MiddleManV2 {
               const data = await response.json();
 
               console.log({ data });
-              
-              /*
-              const json = await response.json();
-              return json.movies; */
+
             } catch (error) {
               console.error(error);
             }

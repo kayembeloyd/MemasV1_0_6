@@ -11,6 +11,7 @@ import ReportItem from '../components/ReportItem';
 import ToDoItem from '../components/ToDoItem';
 
 import MiddleMan from '../database/MiddleMan';
+import MiddleManV2 from '../database/MiddleManV2';
 
 export default function OverViewScreen({ navigation }){
 
@@ -30,6 +31,8 @@ export default function OverViewScreen({ navigation }){
 
                 if (state.type){
                     console.log("Syncing with the online database");
+
+                    MiddleManV2.Sync().then((result) => { console.log(result)})
                 }
             });
         });
