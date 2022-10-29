@@ -106,7 +106,7 @@ export default class MiddleManV2 {
                 let slicing = true
                 let stopSlicing = false
 
-                while(slicing){
+                while(slicing && lEquipments !== null){
                     if (sliceStart + sliceLength >= lEquipments.length) {
                         sliceEnd = lEquipments.length
                         stopSlicing = true
@@ -114,28 +114,46 @@ export default class MiddleManV2 {
     
                     const equipmentSlice = lEquipments.slice(sliceStart, sliceEnd)
 
-                    console.log(equipmentSlice);
+                    // console.log("Equipment slice below")
+                    // console.log(equipmentSlice);
     
+                    
+                    /* DELAY SIMULATION
                     await new Promise((resolve) => {
                         setTimeout(() => {
                             resolve("Timer completed 3 seconds of server call and response delay simulation")
                         }, 10000);
-                    }).then((d) => console.log(d));
+                    }).then((d) => console.log(d)); */
 
+                    
                     // Long Server call
-                    /*try {
-                        const response = await fetch(
-                          'https://memas106.000webhostapp.com/equipments/update'
-                        );
-          
+                    try {
+                        const response = await fetch('https://memas106.000webhostapp.com/equipments/update', {
+                          method: 'POST',
+                          headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                          },
+                          body: new URLSearchParams({
+                            'equipments': JSON.stringify(equipmentSlice)})
+                        })
+
                         const data = await response.json();
           
-                        console.log({ data });
+                        // console.log("data below")
+                        // console.log(data);
+
+                        data.forEach(element => {
+                            console.log("From for loop : " + element.name);
+                            this.LUpdateEquipment(element);
+                        }); 
           
-                      } catch (error) {
+
+
+                    } catch (error) {
                         console.error(error);
-                      }*/
-    
+                    }
+                      
+
                     if (stopSlicing){
                         slicing = false
                     }

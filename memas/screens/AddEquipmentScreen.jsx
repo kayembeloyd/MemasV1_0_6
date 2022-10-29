@@ -81,11 +81,25 @@ export default function AddEquipmentScreen(){
 
                 <View style={styles.buttonContainer}>
                     <MButton text='add equipment' onPress={() => {
+
+                        // console.log(new Date().toISOString())
+                        // 2022-10-26 13:27:00
+
+                        // 2022-10-28T16:08:22.021Z
+
+                        // break up on T
+                        var today = new Date().toISOString()
+                        var splitDate = today.split("T")
+                        var splitTime = splitDate[1].split(".")
+                        var requiredDate = splitDate[0] + " " + splitTime[0]
                     
+                        // console.log(requiredDate)
+                        
                         equipment.name = name
+                        equipment.oid = 0
                         equipment.asset_tag = assetTag
-                        equipment.created_at = createdAt 
-                        equipment.updated_at = updatedAt 
+                        equipment.created_at = requiredDate 
+                        equipment.updated_at = requiredDate 
                         equipment.technical_specifications = technicalSpecifications
                         
                         MiddleManV2.LSaveEquipmentsPush(equipment) 
