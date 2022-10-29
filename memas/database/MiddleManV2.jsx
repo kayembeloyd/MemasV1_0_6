@@ -66,21 +66,25 @@ export default class MiddleManV2 {
 
     // Public Local
     static LSaveEquipmentsPush(equipment){
-        this.LGetEquipments().then(
-            (d) => {
-                const equipments = d !== null ? d : []
-                const equipmentCopy = equipment
-                
-                this.LGetLastEquipmentID().then((d) => {
-                    equipmentCopy.id = d + 1
-                    this.LSetLastEquipmentID(equipmentCopy.id)
+        return new Promise((resolve, reject) => {
+            this.LGetEquipments().then(
+                (d) => {
+                    const equipments = d !== null ? d : []
+                    const equipmentCopy = equipment
+                    
+                    this.LGetLastEquipmentID().then((d) => {
+                        equipmentCopy.id = d + 1
+                        this.LSetLastEquipmentID(equipmentCopy.id)
+    
+                        equipments.push(equipmentCopy)
+    
+                        this.LSaveEquipmentsReset(equipments)
+                    })
 
-                    equipments.push(equipmentCopy)
-
-                    this.LSaveEquipmentsReset(equipments)
-                })
-            }
-        )
+                    resolve('equipment added')
+                }
+            )
+        })
     }
 
     // Public Local
@@ -114,10 +118,6 @@ export default class MiddleManV2 {
     
                     const equipmentSlice = lEquipments.slice(sliceStart, sliceEnd)
 
-                    // console.log("Equipment slice below")
-                    // console.log(equipmentSlice);
-    
-                    
                     /* DELAY SIMULATION
                     await new Promise((resolve) => {
                         setTimeout(() => {
@@ -125,8 +125,6 @@ export default class MiddleManV2 {
                         }, 10000);
                     }).then((d) => console.log(d)); */
 
-                    
-                    // Long Server call
                     try {
                         const response = await fetch('https://memas106.000webhostapp.com/equipments/update', {
                           method: 'POST',
@@ -138,10 +136,6 @@ export default class MiddleManV2 {
                         })
 
                         const data = await response.json();
-          
-                        // console.log("data below")
-                        // console.log(data);
-
                         data.forEach(element => {
                             console.log("From for loop : " + element.name);
                             this.LUpdateEquipment(element);

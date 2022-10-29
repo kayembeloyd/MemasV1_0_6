@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { FlatList, Modal, ScrollView, StyleSheet, Text, View } from 'react-native';
 
+import NetInfo from "@react-native-community/netinfo";
+
 import MButton from '../components/custom/MButton';
 import MCard from '../components/custom/MCard';
 import MInput from '../components/custom/MInput';
@@ -82,19 +84,13 @@ export default function AddEquipmentScreen(){
                 <View style={styles.buttonContainer}>
                     <MButton text='add equipment' onPress={() => {
 
-                        // console.log(new Date().toISOString())
                         // 2022-10-26 13:27:00
-
                         // 2022-10-28T16:08:22.021Z
-
-                        // break up on T
                         var today = new Date().toISOString()
                         var splitDate = today.split("T")
                         var splitTime = splitDate[1].split(".")
                         var requiredDate = splitDate[0] + " " + splitTime[0]
                     
-                        // console.log(requiredDate)
-                        
                         equipment.name = name
                         equipment.oid = 0
                         equipment.asset_tag = assetTag
@@ -102,7 +98,14 @@ export default function AddEquipmentScreen(){
                         equipment.updated_at = requiredDate 
                         equipment.technical_specifications = technicalSpecifications
                         
-                        MiddleManV2.LSaveEquipmentsPush(equipment) 
+                        MiddleManV2.LSaveEquipmentsPush(equipment).then((d) => {
+                            console.log(d + ": Starting to sync")
+                            NetInfo.fetch().then(state => {
+                                if (state.type){
+                                    MiddleManV2.Sync().then((result) => { /*console.log(result)*/ })
+                                }
+                            });
+                        })
                     }}/>
                 </View>
 
