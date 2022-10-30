@@ -37,9 +37,17 @@ export default class MiddleManV2 {
         this.LSaveData('last_equipment_id', id)
     }
 
+    static LSetLastMaintenanceLogID(id) {
+        this.LSaveData('last_maintenance_log_id', id)
+    }
+
     // Private Local
     static LGetLastEquipmentID(){
         return this.LGetData('last_equipment_id')    
+    }
+
+    static LGetLastMaintenanceLogID() {
+        return this.LGetData('last_maintenance_log_id')    
     }
 
     // Public Local
@@ -56,6 +64,26 @@ export default class MiddleManV2 {
             removeValue().then(
                 () => {
                     this.LSaveData('equipments', equipments).then(() => {
+                        resolve('saved data')
+                    })
+                }
+            )
+        })
+    }
+
+    static LSaveMaintenanceLogsReset(maintenance_logs) {
+        return new Promise((resolve, reject) => {
+            const removeValue = async () => {
+                try {
+                  await AsyncStorage.removeItem('maintenance_logs')
+                } catch(e) {
+                  // remove error
+                }          
+            }
+    
+            removeValue().then(
+                () => {
+                    this.LSaveData('maintenance_logs', maintenance_logs).then(() => {
                         resolve('saved data')
                     })
                 }
@@ -131,6 +159,32 @@ export default class MiddleManV2 {
                     resolve('updated')
                 })
             })
+        })
+    }
+
+    static LGetMaintenanceLogs() {
+        return this.LGetData('maintenance_logs')
+    }
+
+    static LSaveMaintenanceLogPush(maintenance_log) {
+        return new Promise((resolve, reject) => {
+            this.LGetMaintenanceLogs().then(
+                (d) => {
+                    const maintenance_logs = d !== null ? d : []
+                    const maintenance_log_copy = maintenance_log
+                    
+                    this.LGetLastMaintenanceLogID().then((d) => {
+                        maintenance_log_copy.id = d + 1
+                        this.LSetLastMaintenanceLogID(maintenance_log_copy.id)
+    
+                        maintenance_logs.push(maintenance_log_copy)
+    
+                        this.LSaveMaintenanceLogsReset(maintenance_logs)
+                    })
+
+                    resolve('equipment added')
+                }
+            )
         })
     }
 
