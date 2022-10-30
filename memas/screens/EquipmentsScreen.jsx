@@ -26,9 +26,14 @@ export default function EquipmentsScreen({ navigation }){
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
+            console.log('Getting local equipments...')
             MiddleManV2.LGetEquipments().then((d) => {
+                console.log('Local equipments = ', d)
+                console.log('Updating State of equipments in app...')
                 d !== null ? setEquipments(d) : setEquipments([]);
+                console.log('State of equipments updated')
                 
+                console.log('Making exceptions for a server request...')
                 var exceptions = []
                 if (d !== null){
                     d.forEach(element => {
@@ -36,15 +41,22 @@ export default function EquipmentsScreen({ navigation }){
                     });
                 }
                 
-                console.log("exceptions")
-                console.log(exceptions)
+                console.log("Exceptions = ", exceptions)
+
+                console.log('Loading equipments online...')
 
                 MiddleManV2.OLoadMoreEquipment(1, exceptions).then((d) => {
-                    console.log('Equipments from web: ')
-                    console.log(JSON.stringify(d));
+                    console.log('Equipments from web: ', d)
 
-                    MiddleManV2.LSaveEquipmentsPushRange(d).then((d) => {
+                    console.log('Adding equipments to Local database...')
+                    MiddleManV2.LSaveEquipmentsPushRange(d).then((newEquips) => {
                         console.log('Equipments added')
+
+                        console.log('New equipments: ', newEquips)
+                        console.log('Trying to update state...')
+                        newEquips !== null ? setEquipments(newEquips) : setEquipments([]);
+                        console.log('State updated')
+                        
                     })
                 })
             })

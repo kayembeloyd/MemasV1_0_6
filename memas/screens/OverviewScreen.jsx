@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import NetInfo from "@react-native-community/netinfo";
@@ -22,18 +22,17 @@ export default function OverViewScreen({ navigation }){
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
+            console.log('Overview Screen Opened');
             console.log('Checking internet connection...');
 
-            // Check internet connection
             NetInfo.fetch().then(state => {
-                console.log("Connection type", state.type);
-                console.log("Is connected?", state.isConnected);
+                console.log('Done Checking internet connection');
+                console.log("Is connected? = ", state.isConnected);
+                console.log("Connection type = ", state.type);
 
                 if (state.type){
                     console.log("Syncing with the online database");    
-
-                // MiddleManV2.OPostTest().then(() => { console.log("OPTest done")})
-                   MiddleManV2.Sync().then((result) => { console.log(result) })
+                    MiddleManV2.Sync().then(() => { console.log("Synchronization complete"); })
                 }
             });
         });

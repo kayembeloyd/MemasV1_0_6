@@ -15,7 +15,7 @@ export default class MiddleManV2 {
             }
         }
 
-        s_(key_, value_);
+        return s_(key_, value_)
     }
 
     // Private Local
@@ -44,19 +44,23 @@ export default class MiddleManV2 {
 
     // Public Local
     static LSaveEquipmentsReset(equipments){
-        const removeValue = async () => {
-            try {
-              await AsyncStorage.removeItem('equipments')
-            } catch(e) {
-              // remove error
-            }          
-        }
-
-        removeValue().then(
-            () => {
-                this.LSaveData('equipments', equipments)
+        return new Promise((resolve, reject) => {
+            const removeValue = async () => {
+                try {
+                  await AsyncStorage.removeItem('equipments')
+                } catch(e) {
+                  // remove error
+                }          
             }
-        )
+    
+            removeValue().then(
+                () => {
+                    this.LSaveData('equipments', equipments).then(() => {
+                        resolve('saved data')
+                    })
+                }
+            )
+        })
     }
 
     // Public Local Promise
@@ -106,7 +110,7 @@ export default class MiddleManV2 {
 
                     this.LSaveEquipmentsReset(equipments)
 
-                    resolve('equipments added')
+                    resolve(equipments)
                 })
             
             })
@@ -115,14 +119,18 @@ export default class MiddleManV2 {
 
     // Public Local
     static LUpdateEquipment(equipment) {
-        this.LGetEquipments().then((d) => {
-            const equipments = d !== null ? d : []
-
-            const original_equipment_index = equipments.findIndex(original_equipment => original_equipment.id === equipment.id)
-
-            equipments[original_equipment_index] = equipment
-
-            this.LSaveEquipmentsReset(equipments)
+        return new Promise((resolve, reject) => {
+            this.LGetEquipments().then((d) => {
+                const equipments = d !== null ? d : []
+    
+                const original_equipment_index = equipments.findIndex(original_equipment => original_equipment.id === equipment.id)
+    
+                equipments[original_equipment_index] = equipment
+    
+                this.LSaveEquipmentsReset(equipments).then(() => {
+                    resolve('updated')
+                })
+            })
         })
     }
 
@@ -132,15 +140,16 @@ export default class MiddleManV2 {
             console.log("Getting local equipments...")
 
             this.LGetEquipments().then( async (lEquipments) => {
-                console.log(lEquipments)
+                console.log('Local equipments = ', lEquipments)
 
                 let sliceStart = 0
                 let sliceLength = 5
                 let sliceEnd = sliceStart + sliceLength
                 let slicing = true
                 let stopSlicing = false
+                let sliceCount = 1
 
-                console.log("Slicing...")
+                console.log("Slicing Local equipments...")
 
                 while(slicing && lEquipments !== null){
                     if (sliceStart + sliceLength >= lEquipments.length) {
@@ -149,45 +158,49 @@ export default class MiddleManV2 {
                     }
     
                     const equipmentSlice = lEquipments.slice(sliceStart, sliceEnd)
-                    console.log("Equipment Slice = ")
-                    console.log(equipmentSlice)
+                    console.log("Equipment Slice ", sliceCount, " = ", equipmentSlice)
                     console.log("JSON Stringfying...")
-                    console.log("Stringfied slice = ")
-                    console.log(JSON.stringify(equipmentSlice))
+                    const stringifiedEquipmentSlice = JSON.stringify(equipmentSlice)
+                    console.log("Stringfied slice = ", sliceCount, " = ", stringifiedEquipmentSlice)
 
                     try {
+                        console.log("Sending request...")
                         const response = await fetch('https://memas106.000webhostapp.com/equipments/update', {
                           method: 'POST',
                           headers: {
                             'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
                           },
                           body: new URLSearchParams({
-                            'equipments': JSON.stringify(equipmentSlice)}).toString()
+                            'equipments': stringifiedEquipmentSlice}).toString()
                         })
+                        console.log("Request sent")
 
-                        console.log("Waiting for response")
+
+                        console.log("Waiting for response...")
                         const data = await response.json();
 
+                        console.log('Server Responded with: ', JSON.stringify(data))
+                        console.log('Updating...')
                         data.forEach(element => {
-                            console.log("From for loop : " + element.name);
-                            this.LUpdateEquipment(element);
+                            this.LUpdateEquipment(element)
                         });
+                        console.log('Done updating')
                     } catch (error) {
                         console.error(error);
                     }
                       
-
                     if (stopSlicing){
                         slicing = false
+                        console.log("Triggered a slicing stop flag")
                     }
         
                     sliceStart = sliceEnd
                     sliceEnd = sliceStart + sliceLength
+                    
+                    sliceCount++
                 }
                 
-            
-                resolve("Synchronization complete");
-
+                resolve();
             })
         });
     }
