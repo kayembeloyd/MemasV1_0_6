@@ -87,6 +87,32 @@ export default class MiddleManV2 {
         })
     }
 
+    static LSaveEquipmentsPushRange(equipmentsIn) {
+        return new Promise((resolve, reject) => {
+            this.LGetEquipments().then((d) => {
+                const equipments = d !== null ? d : []
+                const equipmentsCopy = equipmentsIn
+
+                this.LGetLastEquipmentID().then((d) => {
+                    var counter = 1
+
+                    equipmentsCopy.forEach(element => {
+                        element.id = d + 1 + counter
+                        equipments.push(element)
+                        counter = counter + 1
+                    });
+
+                    this.LSetLastEquipmentID(equipments[equipments.length - 1].id)
+
+                    this.LSaveEquipmentsReset(equipments)
+
+                    resolve('equipments added')
+                })
+            
+            })
+        })
+    }
+
     // Public Local
     static LUpdateEquipment(equipment) {
         this.LGetEquipments().then((d) => {
@@ -103,12 +129,18 @@ export default class MiddleManV2 {
     // Public Local Online
     static Sync(){
         return new Promise((resolve, reject) => {
+            console.log("Getting local equipments...")
+
             this.LGetEquipments().then( async (lEquipments) => {
+                console.log(lEquipments)
+
                 let sliceStart = 0
                 let sliceLength = 5
                 let sliceEnd = sliceStart + sliceLength
                 let slicing = true
                 let stopSlicing = false
+
+                console.log("Slicing...")
 
                 while(slicing && lEquipments !== null){
                     if (sliceStart + sliceLength >= lEquipments.length) {
@@ -117,13 +149,11 @@ export default class MiddleManV2 {
                     }
     
                     const equipmentSlice = lEquipments.slice(sliceStart, sliceEnd)
-
-                    /* DELAY SIMULATION
-                    await new Promise((resolve) => {
-                        setTimeout(() => {
-                            resolve("Timer completed 3 seconds of server call and response delay simulation")
-                        }, 10000);
-                    }).then((d) => console.log(d)); */
+                    console.log("Equipment Slice = ")
+                    console.log(equipmentSlice)
+                    console.log("JSON Stringfying...")
+                    console.log("Stringfied slice = ")
+                    console.log(JSON.stringify(equipmentSlice))
 
                     try {
                         const response = await fetch('https://memas106.000webhostapp.com/equipments/update', {
@@ -132,17 +162,16 @@ export default class MiddleManV2 {
                             'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
                           },
                           body: new URLSearchParams({
-                            'equipments': JSON.stringify(equipmentSlice)})
+                            'equipments': JSON.stringify(equipmentSlice)}).toString()
                         })
 
+                        console.log("Waiting for response")
                         const data = await response.json();
+
                         data.forEach(element => {
                             console.log("From for loop : " + element.name);
                             this.LUpdateEquipment(element);
-                        }); 
-          
-
-
+                        });
                     } catch (error) {
                         console.error(error);
                     }
@@ -155,24 +184,30 @@ export default class MiddleManV2 {
                     sliceStart = sliceEnd
                     sliceEnd = sliceStart + sliceLength
                 }
-
+                
+            
                 resolve("Synchronization complete");
 
             })
-          });
-
-        
+        });
     }
 
 
     // Public Online 
     // Note these equipments will not be stored in the local database
     // They will be stored if clicked only 
-    static OLoadMoreEquipment(page){
-        const loadEquipments = async (page) => {
+    static OLoadMoreEquipment(page, exceptions){
+        const loadEquipments = async (page, exceptions) => {
             try {
+                var excep = ''
+                exceptions.forEach(element => {
+                    excep = excep + element + ','
+                });
+
+                excep = excep + '0'
+            
                 const response = await fetch(
-                    'https://memas106.000webhostapp.com/equipments?page=' + page + '&group_length=10&exceptions=0'
+                    'https://memas106.000webhostapp.com/equipments?page=' + page + '&group_length=10&exceptions=' + excep
                 );
 
                 const data = await response.json();
@@ -184,7 +219,7 @@ export default class MiddleManV2 {
             }
         }
 
-        return loadEquipments(page);
+        return loadEquipments(page, exceptions);
     }
 
     static OTest(){
@@ -204,6 +239,34 @@ export default class MiddleManV2 {
         };
 
         return getEquipment();
+    }
+
+    static OPostTest() {
+        const uploadEquipment = async () => {
+            console.log("Conducting OPtest...")
+
+            try {
+                const response = await fetch('https://memas106.000webhostapp.com/post/test', {
+                    method: 'POST',
+                    headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                    },
+                    body: new URLSearchParams({
+                    'test': 'wow'}).toString()
+                })
+
+                console.log("Waiting for response")
+                const data = await response.text();
+                console.log("Response = ")
+                console.log(data)
+
+
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        return uploadEquipment();
     }
 }
 

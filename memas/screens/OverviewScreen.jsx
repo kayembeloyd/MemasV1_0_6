@@ -22,17 +22,18 @@ export default function OverViewScreen({ navigation }){
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
-            // console.log('Checking internet connection...');
+            console.log('Checking internet connection...');
 
             // Check internet connection
             NetInfo.fetch().then(state => {
-                // console.log("Connection type", state.type);
-                // console.log("Is connected?", state.isConnected);
+                console.log("Connection type", state.type);
+                console.log("Is connected?", state.isConnected);
 
                 if (state.type){
-                    // console.log("Syncing with the online database");
+                    console.log("Syncing with the online database");    
 
-                    MiddleManV2.Sync().then((result) => { /*console.log(result)*/ })
+                // MiddleManV2.OPostTest().then(() => { console.log("OPTest done")})
+                   MiddleManV2.Sync().then((result) => { console.log(result) })
                 }
             });
         });

@@ -28,17 +28,26 @@ export default function EquipmentsScreen({ navigation }){
         const unsubscribe = navigation.addListener('focus', () => {
             MiddleManV2.LGetEquipments().then((d) => {
                 d !== null ? setEquipments(d) : setEquipments([]);
-            })
+                
+                var exceptions = []
+                if (d !== null){
+                    d.forEach(element => {
+                        exceptions.push(element.oid)
+                    });
+                }
+                
+                console.log("exceptions")
+                console.log(exceptions)
 
-            // MiddleManV2.OTest();
-            MiddleManV2.OLoadMoreEquipment(1).then((d) => {
-                console.log({ d });
+                MiddleManV2.OLoadMoreEquipment(1, exceptions).then((d) => {
+                    console.log('Equipments from web: ')
+                    console.log(JSON.stringify(d));
+
+                    MiddleManV2.LSaveEquipmentsPushRange(d).then((d) => {
+                        console.log('Equipments added')
+                    })
+                })
             })
-            
-            /* 
-            MiddleMan.getData('equipments').then((d) => {
-                d !== null ? setEquipments(d) : setEquipments([]);
-            }) */
         });
 
         return unsubscribe;
