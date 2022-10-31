@@ -25,6 +25,33 @@ export default function MaintenanceLogsScreen({ navigation }){
                 console.log('Updating State of mainetnance logs in app...')
                 d !== null ? setMaintenanceLogs(d) : setMaintenanceLogs([]);
                 console.log('State of maintenance logs updated')
+
+                console.log('Making exceptions for a server request...')
+                var exceptions = []
+                if (d !== null){
+                    d.forEach(element => {
+                        exceptions.push(element.oid)
+                    });
+                }
+
+                console.log("Exceptions = ", exceptions)
+
+                console.log('Loading maintenance logs online...')
+                MiddleManV2.OLoadMoreMaintenanceLogs(1, exceptions).then((d) => {
+                    console.log('Maintenance Logs from web: ', d)
+
+                    console.log('Adding Maintenance Logs to Local database...')
+                    MiddleManV2.LSaveMaintenanceLogsPushRage(d).then((new_maintenance_logs) => {
+                        console.log('Maintenance logs added')
+
+                        console.log('New maintenance logs: ', new_maintenance_logs)
+                        console.log('Trying to update state...')
+                        new_maintenance_logs !== null ? setMaintenanceLogs(new_maintenance_logs) : setMaintenanceLogs([]);
+                        console.log('State updated')
+                        
+                    })
+                })
+
             })
 
         });
@@ -52,7 +79,7 @@ export default function MaintenanceLogsScreen({ navigation }){
                             <MaintenanceLogItem 
                                 onPress={() => { navigation.navigate('MaintenanceLogScreen')}}
                                 equipmentName={item.equipment_name} 
-                                type= {item.type}
+                                type = {item.type}
                                 equipmentAssetTag = {item.equipment_asset_tag}
                             />
                         )}

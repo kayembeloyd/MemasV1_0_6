@@ -188,6 +188,32 @@ export default class MiddleManV2 {
         })
     }
 
+    static LSaveMaintenanceLogsPushRage(maintenance_logs_in) {
+        return new Promise((resolve, reject) => {
+            this.LGetMaintenanceLogs().then((d) => {
+                const maintenance_logs = d !== null ? d : []
+                const maintenance_logs_Copy = maintenance_logs_in
+
+                this.LGetLastMaintenanceLogID().then((d) => {
+                    var counter = 1
+
+                    maintenance_logs_Copy.forEach(element => {
+                        element.id = d + 1 + counter
+                        maintenance_logs.push(element)
+                        counter = counter + 1
+                    });
+
+                    this.LSetLastMaintenanceLogID(maintenance_logs[maintenance_logs.length - 1].id)
+
+                    this.LSaveMaintenanceLogsReset(maintenance_logs)
+
+                    resolve(maintenance_logs)
+                })
+            
+            })
+        })
+    }
+
     // Public Local Online
     static Sync(){
         return new Promise((resolve, reject) => {
@@ -287,6 +313,32 @@ export default class MiddleManV2 {
         }
 
         return loadEquipments(page, exceptions);
+    }
+
+    static OLoadMoreMaintenanceLogs(page, exceptions) {
+        const loadMaintenanceLogs = async (page, exceptions) => {
+            try {
+                var excep = ''
+                exceptions.forEach(element => {
+                    excep = excep + element + ','
+                })
+
+                excep = excep + '0'
+
+                const response = await fetch (
+                    'https://memas106.000webhostapp.com/maintenance-logs?page=' + page + '&group_length=10&exceptions=' + excep
+                )
+
+                const data = await response.json()
+
+                return data
+            } catch (error) {
+                console.error(error)
+                return null
+            }
+        }
+
+        return loadMaintenanceLogs(page, exceptions)
     }
 
     static OTest(){

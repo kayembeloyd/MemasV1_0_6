@@ -8,7 +8,7 @@ export default function EquipmentItem ({ onPress, equipmentName, type, equipment
                 <View style={styles.equipmentDescs}>
                     <Text style={styles.equipmentDesc}>09-Sept-2022 14:00</Text>
                     <Text style={styles.equipmentMainDesc}>{equipmentName} ({equipmentAssetTag})</Text>
-                    <Text style={styles.equipmentDesc}>Log Type: {type}e</Text>
+                    <Text style={styles.equipmentDesc}>Log Type: {type} </Text>
                     <Text style={styles.equipmentDesc}>Dept: Maternity</Text>
                     <Text style={styles.equipmentDesc}>Make: Canta</Text>
                     <Text style={styles.equipmentDesc}>Model: VN-WS-08</Text>
