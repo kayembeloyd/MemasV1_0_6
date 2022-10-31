@@ -47,14 +47,23 @@ export default function AddMaintenanceLogScreen({ route, navigation }){
                 </View>
 
                 <MButton text='Done' onPress={ () => {
-                    
+                    // 2022-10-26 13:27:00
+                    // 2022-10-28T16:08:22.021Z
+                    var today = new Date().toISOString()
+                    var splitDate = today.split("T")
+                    var splitTime = splitDate[1].split(".")
+                    var requiredDate = splitDate[0] + " " + splitTime[0]
+
                     maintenance_log.id = 0
+                    maintenance_log.oid = 0
                     maintenance_log.description = maintenanceLogDescription
                     maintenance_log.equipment_oid = equipment.oid
                     maintenance_log.equipment_id = equipment.id
                     maintenance_log.type = maintenanceType
                     maintenance_log.equipment_name = equipment.name
                     maintenance_log.equipment_asset_tag = equipment.asset_tag
+                    maintenance_log.created_at = requiredDate
+                    maintenance_log.updated_at = requiredDate
 
                     MiddleManV2.LSaveMaintenanceLogPush(maintenance_log).then((d) => {
                         console.log("Maintenance log added");
