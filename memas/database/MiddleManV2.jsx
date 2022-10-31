@@ -134,7 +134,11 @@ export default class MiddleManV2 {
                         counter = counter + 1
                     });
 
-                    this.LSetLastEquipmentID(equipments[equipments.length - 1].id)
+                    if (equipments.length !== 0){
+                        this.LSetLastEquipmentID(equipments[equipments.length - 1].id)
+                    } else {
+                        this.LSetLastEquipmentID(0)
+                    }
 
                     this.LSaveEquipmentsReset(equipments)
 
@@ -219,7 +223,11 @@ export default class MiddleManV2 {
                         counter = counter + 1
                     });
 
-                    this.LSetLastMaintenanceLogID(maintenance_logs[maintenance_logs.length - 1].id)
+                    if (maintenance_logs.length !== 0){
+                        this.LSetLastMaintenanceLogID(maintenance_logs[maintenance_logs.length - 1].id)
+                    } else {
+                        this.LSetLastMaintenanceLogID(0)
+                    }
 
                     this.LSaveMaintenanceLogsReset(maintenance_logs)
 
