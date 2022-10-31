@@ -53,7 +53,9 @@ export default function AddMaintenanceLogScreen({ route, navigation }){
                     maintenance_log.equipment_oid = equipment.oid
                     maintenance_log.equipment_id = equipment.id
                     maintenance_log.type = maintenanceType
-                    
+                    maintenance_log.equipment_name = equipment.name
+                    maintenance_log.equipment_asset_tag = equipment.asset_tag
+
                     MiddleManV2.LSaveMaintenanceLogPush(maintenance_log).then((d) => {
                         console.log("Maintenance log added");
                     })

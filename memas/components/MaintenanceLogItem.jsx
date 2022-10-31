@@ -1,14 +1,14 @@
 import React from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 
-export default function EquipmentItem ({ onPress }) {
+export default function EquipmentItem ({ onPress, equipmentName, type, equipmentAssetTag}) {
     return (
         <TouchableOpacity onPress={onPress}>
             <View style={styles.container}> 
                 <View style={styles.equipmentDescs}>
                     <Text style={styles.equipmentDesc}>09-Sept-2022 14:00</Text>
-                    <Text style={styles.equipmentMainDesc}>Oxygen Concentrator (M01-002)</Text>
-                    <Text style={styles.equipmentDesc}>Log Type: Preventive Maintenance</Text>
+                    <Text style={styles.equipmentMainDesc}>{equipmentName} ({equipmentAssetTag})</Text>
+                    <Text style={styles.equipmentDesc}>Log Type: {type}e</Text>
                     <Text style={styles.equipmentDesc}>Dept: Maternity</Text>
                     <Text style={styles.equipmentDesc}>Make: Canta</Text>
                     <Text style={styles.equipmentDesc}>Model: VN-WS-08</Text>
