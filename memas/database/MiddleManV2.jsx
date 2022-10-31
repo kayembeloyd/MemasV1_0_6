@@ -162,6 +162,22 @@ export default class MiddleManV2 {
         })
     }
 
+    static LUpdateMaintenanceLog(maintenanceLog){
+        return new Promise((resolve, reject) => {
+            this.LGetMaintenanceLogs().then((d) => {
+                const maintenance_logs = d !== null ? d : []
+    
+                const original_maintenance_log_index = maintenance_logs.findIndex(original_maintenance_log => original_maintenance_log.id === maintenanceLog.id)
+    
+                maintenance_logs[original_maintenance_log_index] = maintenanceLog
+    
+                this.LSaveMaintenanceLogsReset(maintenance_logs).then(() => {
+                    resolve('updated')
+                })
+            })
+        })
+    }
+
     static LGetMaintenanceLogs() {
         return this.LGetData('maintenance_logs')
     }
@@ -241,7 +257,7 @@ export default class MiddleManV2 {
                     console.log("Equipment Slice ", sliceCount, " = ", equipmentSlice)
                     console.log("JSON Stringfying...")
                     const stringifiedEquipmentSlice = JSON.stringify(equipmentSlice)
-                    console.log("Stringfied slice = ", sliceCount, " = ", stringifiedEquipmentSlice)
+                    console.log("Stringfied slice ", sliceCount, " = ", stringifiedEquipmentSlice)
 
                     try {
                         console.log("Sending request...")
@@ -263,6 +279,76 @@ export default class MiddleManV2 {
                         console.log('Updating...')
                         data.forEach(element => {
                             this.LUpdateEquipment(element)
+                        });
+                        console.log('Done updating')
+                    } catch (error) {
+                        console.error(error);
+                    }
+                      
+                    if (stopSlicing){
+                        slicing = false
+                        console.log("Triggered a slicing stop flag")
+                    }
+        
+                    sliceStart = sliceEnd
+                    sliceEnd = sliceStart + sliceLength
+                    
+                    sliceCount++
+                }
+                
+                resolve();
+            })
+        });
+    }
+
+    static Sync2(){
+        return new Promise((resolve, reject) => {
+            console.log("Getting local maintenance logs...")
+
+            this.LGetMaintenanceLogs().then( async (lMaintenanceLogs) => {
+                console.log('Local maintenance logs = ', lMaintenanceLogs)
+
+                let sliceStart = 0
+                let sliceLength = 5
+                let sliceEnd = sliceStart + sliceLength
+                let slicing = true
+                let stopSlicing = false
+                let sliceCount = 1
+
+                console.log("Slicing Local maintenance logs...")
+
+                while(slicing && lMaintenanceLogs !== null){
+                    if (sliceStart + sliceLength >= lMaintenanceLogs.length) {
+                        sliceEnd = lMaintenanceLogs.length
+                        stopSlicing = true
+                    }
+    
+                    const maintenanceLogSlice = lMaintenanceLogs.slice(sliceStart, sliceEnd)
+                    console.log("Maintenance Log Slice ", sliceCount, " = ", maintenanceLogSlice)
+                    console.log("JSON Stringfying...")
+                    const stringifiedMaintenanceLogSlice = JSON.stringify(maintenanceLogSlice)
+                    console.log("Stringfied slice ", sliceCount, " = ", stringifiedMaintenanceLogSlice)
+
+                    try {
+                        console.log("Sending request...")
+                        const response = await fetch('https://memas106.000webhostapp.com/maintenance-logs/update', {
+                          method: 'POST',
+                          headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                          },
+                          body: new URLSearchParams({
+                            'maintenance_logs': stringifiedMaintenanceLogSlice}).toString()
+                        })
+                        console.log("Request sent")
+
+
+                        console.log("Waiting for response...")
+                        const data = await response.json();
+
+                        console.log('Server Responded with: ', JSON.stringify(data))
+                        console.log('Updating...')
+                        data.forEach(element => {
+                            this.LUpdateMaintenanceLog(element)
                         });
                         console.log('Done updating')
                     } catch (error) {

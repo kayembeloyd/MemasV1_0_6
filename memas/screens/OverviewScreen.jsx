@@ -32,7 +32,8 @@ export default function OverViewScreen({ navigation }){
 
                 if (state.type){
                     console.log("Syncing with the online database");    
-                    MiddleManV2.Sync().then(() => { console.log("Synchronization complete"); })
+                    MiddleManV2.Sync().then(() => { console.log("Synchronization 1 complete"); })
+                    MiddleManV2.Sync2().then(() => { console.log("Synchronization 2 complete"); })
                 }
             });
         });
