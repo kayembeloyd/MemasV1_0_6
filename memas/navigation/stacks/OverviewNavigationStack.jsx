@@ -45,7 +45,15 @@ export default function OverviewNavigationStack() {
         <stack.Screen name="EditServiceScheduleScreen" component={EditServiceScheduleScreen} options={{ title: 'Edit Service Schedule Screen',}}/>
         <stack.Screen name="EquipmentScreen" component={EquipmentScreen} options={{ title: 'Equipment Screen',}}/>
         <stack.Screen name="EquipmentSearchScreen" component={EquipmentSearchScreen} options={{ title: 'Equipment Search Screen',}}/>
-        <stack.Screen name="ScanScreen" component={ScanScreen} options={{ title: 'Scan Screen',}}/>
+        
+        <stack.Screen 
+          name="ScanScreen" 
+          component={ScanScreen} 
+          options={{ 
+            title: 'Scan Screen',
+            headerShadowVisible: false,
+          }}/>
+
       </stack.Navigator>
     );
   }
