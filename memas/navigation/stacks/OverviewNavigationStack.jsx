@@ -3,6 +3,8 @@ import React  from 'react';
 import MHeader from '../../components/custom/MHeader'
 
 import AddMaintenanceLogScreen from '../../screens/AddMaintenanceLogScreen'
+import MaintenanceLogsScreen from '../../screens/MaintenanceLogsScreen'
+import MaintenanceLogScreen from '../../screens/MaintenanceLogScreen'
 import EquipmentSearchScreen from '../../screens/EquipmentSearchScreen'
 import EquipmentScreen from '../../screens/EquipmentScreen'
 import ScanScreen from '../../screens/ScanScreen'
@@ -35,6 +37,18 @@ export default function OverviewNavigationStack() {
             headerShadowVisible: false,
           }}/>
         <stack.Screen 
+          name="MaintenanceLogsScreen2" 
+          component={MaintenanceLogsScreen} 
+          options={{ 
+            title: 'Equip. Maintenance Logs Screen',
+            headerShadowVisible: false}}/>
+        <stack.Screen 
+          name="MaintenanceLogScreen" 
+          component={MaintenanceLogScreen} 
+          options={{ 
+            title: 'Maintenance Log Screen',
+            headerShadowVisible: false}}/>
+        <stack.Screen 
           name="AddEquipmentScreen"  
           component={AddEquipmentScreen}
           options={{ 
@@ -56,4 +70,4 @@ export default function OverviewNavigationStack() {
 
       </stack.Navigator>
     );
-  }
+  } 

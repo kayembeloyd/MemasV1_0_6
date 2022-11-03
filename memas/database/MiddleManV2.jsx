@@ -214,25 +214,29 @@ export default class MiddleManV2 {
                 const maintenance_logs = d !== null ? d : []
                 const maintenance_logs_Copy = maintenance_logs_in
 
-                this.LGetLastMaintenanceLogID().then((d) => {
-                    var counter = 1
-
-                    maintenance_logs_Copy.forEach(element => {
-                        element.id = d + 1 + counter
-                        maintenance_logs.push(element)
-                        counter = counter + 1
-                    });
-
-                    if (maintenance_logs.length !== 0){
-                        this.LSetLastMaintenanceLogID(maintenance_logs[maintenance_logs.length - 1].id)
-                    } else {
-                        this.LSetLastMaintenanceLogID(0)
-                    }
-
-                    this.LSaveMaintenanceLogsReset(maintenance_logs)
-
+                if (maintenance_logs_Copy){
+                    this.LGetLastMaintenanceLogID().then((d) => {
+                        var counter = 1
+    
+                        maintenance_logs_Copy.forEach(element => {
+                            element.id = d + 1 + counter
+                            maintenance_logs.push(element)
+                            counter = counter + 1
+                        });
+    
+                        if (maintenance_logs.length !== 0){
+                            this.LSetLastMaintenanceLogID(maintenance_logs[maintenance_logs.length - 1].id)
+                        } else {
+                            this.LSetLastMaintenanceLogID(0)
+                        }
+    
+                        this.LSaveMaintenanceLogsReset(maintenance_logs)
+    
+                        resolve(maintenance_logs)
+                    })
+                } else {
                     resolve(maintenance_logs)
-                })
+                }
             
             })
         })
@@ -407,6 +411,25 @@ export default class MiddleManV2 {
         }
 
         return loadEquipments(page, exceptions);
+    }
+
+    static OLoadEquipmentAssetTag(asset_tag) {
+        const loadEquipmentAssetTag = async (asset_tag) => {
+            try {
+                const response = await fetch(
+                    'https://memas106.000webhostapp.com/equipments/asset-tag/' + asset_tag
+                );
+
+                const data = await response.json();
+
+                return data;
+            } catch (error) {
+                console.error(error);
+                return null;
+            }
+        }
+
+        return loadEquipmentAssetTag(asset_tag);
     }
 
     static OLoadMoreMaintenanceLogs(page, exceptions) {
