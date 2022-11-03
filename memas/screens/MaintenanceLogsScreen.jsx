@@ -6,7 +6,9 @@ import FilterBar from '../components/FilterBar';
 import MaintenanceLogItem from '../components/MaintenanceLogItem'
 import MiddleManV2 from '../database/MiddleManV2';
 
-export default function MaintenanceLogsScreen({ navigation }){
+export default function MaintenanceLogsScreen({ route, navigation }){
+    const { filtering, filterEquipment } = route.params;
+
     const filterItems = [
         { id:1, key:'Department', values:[ 'all', 'dept 1', 'dept 5']},
         { id:2, key:'Make', values:[ 'all', 'working'] },            
@@ -20,10 +22,28 @@ export default function MaintenanceLogsScreen({ navigation }){
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
             console.log('Getting local maintenance logs...')
+            
             MiddleManV2.LGetMaintenanceLogs().then((d) => {
                 console.log('local maintenance logs: ', d)
                 console.log('Updating State of mainetnance logs in app...')
-                d !== null ? setMaintenanceLogs(d) : setMaintenanceLogs([]);
+                
+                if (filtering === 'on'){
+                    let filtered_maintenance_logs = []
+
+                    if (d){
+                        d.forEach(element => {
+                            if (element.equipment_oid === filterEquipment.oid){
+                                filtered_maintenance_logs.push(element)
+                            }    
+                        });
+                    }
+
+                    filtered_maintenance_logs !== null ? setMaintenanceLogs(filtered_maintenance_logs) : setMaintenanceLogs([]);
+                    
+                } else {
+                    d !== null ? setMaintenanceLogs(d) : setMaintenanceLogs([]);
+                }
+
                 console.log('State of maintenance logs updated')
 
                 console.log('Making exceptions for a server request...')
@@ -46,9 +66,26 @@ export default function MaintenanceLogsScreen({ navigation }){
 
                         console.log('New maintenance logs: ', new_maintenance_logs)
                         console.log('Trying to update state...')
-                        new_maintenance_logs !== null ? setMaintenanceLogs(new_maintenance_logs) : setMaintenanceLogs([]);
-                        console.log('State updated')
+
+                        // Filter the new maintenance logs 
+
+                        if (filtering === 'on'){
+                            let filtered_maintenance_logs = []
+
+                            new_maintenance_logs.forEach(element => {
+                                if (element.equipment_oid === filterEquipment.oid){
+                                    filtered_maintenance_logs.push(element)
+                                }    
+                            });
+    
+                            filtered_maintenance_logs !== null ? setMaintenanceLogs(filtered_maintenance_logs) : setMaintenanceLogs([]);
+                            
+                        } else {
+                            new_maintenance_logs !== null ? setMaintenanceLogs(new_maintenance_logs) : setMaintenanceLogs([]);
+                        }
+
                         
+                        console.log('State updated') 
                     })
                 })
 
@@ -67,7 +104,7 @@ export default function MaintenanceLogsScreen({ navigation }){
                     onPress={() => {
                         navigation.navigate('MaintenanceLogSearchScreen');
                         }} 
-                    hint='search equipment in logs'/>
+                    hint={ 'Filtering(' + filtering + ')' + (filterEquipment ? '(' + filterEquipment.name + ')' : '') }/>
                 </View>
 
                 <FilterBar filterItems={filterItems}/>

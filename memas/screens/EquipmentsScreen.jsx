@@ -49,15 +49,19 @@ export default function EquipmentsScreen({ navigation }){
                     console.log('Equipments from web: ', d)
 
                     console.log('Adding equipments to Local database...')
-                    MiddleManV2.LSaveEquipmentsPushRange(d).then((newEquips) => {
-                        console.log('Equipments added')
+                    if (d){
+                        MiddleManV2.LSaveEquipmentsPushRange(d).then((newEquips) => {
+                            console.log('Equipments added')
+    
+                            console.log('New equipments: ', newEquips)
+                            console.log('Trying to update state...')
+                            newEquips !== null ? setEquipments(newEquips) : setEquipments([]);
+                            console.log('State updated')
+                            
+                        })
+                    }
 
-                        console.log('New equipments: ', newEquips)
-                        console.log('Trying to update state...')
-                        newEquips !== null ? setEquipments(newEquips) : setEquipments([]);
-                        console.log('State updated')
-                        
-                    })
+                    
                 })
             })
         });

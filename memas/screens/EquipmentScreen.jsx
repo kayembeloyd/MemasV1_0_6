@@ -22,7 +22,9 @@ export default function EquipmentScreen({ route, navigation }){
             <ScrollView>
                 <View style={styles.cardsContainer}>
                     <MCard cardTitle='Actions'>
-                        <MButton text='Maintenance Logs' onPress={() => { navigation.navigate('MaintenanceLogsScreen2')}}/>
+                        <MButton text='Maintenance Logs' onPress={() => { 
+                            navigation.navigate('MaintenanceLogsScreen2', { filtering: 'on', filterEquipment: item })
+                        }}/>
                         <MButton text='Corrective Maintenance' onPress={() => { navigation.navigate('AddMaintenanceLogScreen', { equipment: item, maintenanceType: 'corrective'}) }}/>
                         <MButton text='Preventive Maintenance' onPress={() => { navigation.navigate('AddMaintenanceLogScreen', { equipment: item, maintenanceType: 'Preventive'}) }}/>
                         <MFrozenInput />

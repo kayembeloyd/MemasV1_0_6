@@ -19,7 +19,9 @@ export default function MaintenanceLogsNavigationStack({ navigation }) {
 					  headerTitle: () => <MHeader navigation={navigation} title='Maintenance Logs' />,
 					  headerShadowVisible: false,
 					}
-				  }}/>
+				  }}
+				initialParams={{ filtering: 'off', filteringEquipment: null }}/>
+				
 			<stack.Screen name="MaintenanceLogSearchScreen" component={MaintenanceLogSearchScreen} options={{ title: 'Maintenance Log Search Screen',}}/>
 			<stack.Screen name="MaintenanceLogScreen" component={MaintenanceLogScreen} options={{ title: 'Maintenance Log Screen',}}/>
 		</stack.Navigator>
