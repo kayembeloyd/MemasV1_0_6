@@ -27,16 +27,16 @@ const styles = StyleSheet.create({
         minWidth: 300,
         maxWidth: 600,
         alignSelf: 'center',
-        backgroundColor: '#d9d9d9',
+        backgroundColor: 'red',
         borderRadius: 10,
-        marginVertical: 10,
-        paddingVertical: 20,
-        paddingLeft: 25,
+        marginVertical: 8,
+        paddingVertical: 10,
+        paddingLeft: 20,
         paddingRight: 5,
     }, 
 
     fieldName: {
-        marginBottom: 20,
+        marginBottom: 10,
         fontWeight: '500'
     },
 
