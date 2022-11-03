@@ -25,7 +25,6 @@ const styles = StyleSheet.create({
     },
 
     cardContent: {
-        backgroundColor:'blue'
     },
 
     cardTitle: {
