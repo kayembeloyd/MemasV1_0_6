@@ -2,6 +2,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default class MiddleManV2 {
 
+    // static WEBSITENAME = 'https://memas106.000webhostapp.com'
+    static WEBSITENAME = 'http://192.168.168.58/memas106'
+
     // Local database section 
     
     // Private Local
@@ -273,7 +276,7 @@ export default class MiddleManV2 {
 
                     try {
                         console.log("Sending request...")
-                        const response = await fetch('https://memas106.000webhostapp.com/equipments/update', {
+                        const response = await fetch(this.WEBSITENAME + '/equipments/update', {
                           method: 'POST',
                           headers: {
                             'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
@@ -343,7 +346,7 @@ export default class MiddleManV2 {
 
                     try {
                         console.log("Sending request...")
-                        const response = await fetch('https://memas106.000webhostapp.com/maintenance-logs/update', {
+                        const response = await fetch(this.WEBSITENAME + '/maintenance-logs/update', {
                           method: 'POST',
                           headers: {
                             'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
@@ -398,7 +401,7 @@ export default class MiddleManV2 {
                 excep = excep + '0'
             
                 const response = await fetch(
-                    'https://memas106.000webhostapp.com/equipments?page=' + page + '&group_length=10&exceptions=' + excep
+                    this.WEBSITENAME + '/equipments?page=' + page + '&group_length=10&exceptions=' + excep
                 );
 
                 const data = await response.json();
@@ -417,7 +420,7 @@ export default class MiddleManV2 {
         const loadEquipmentAssetTag = async (asset_tag) => {
             try {
                 const response = await fetch(
-                    'https://memas106.000webhostapp.com/equipments/asset-tag/' + asset_tag
+                    this.WEBSITENAME + '/equipments/asset-tag/' + asset_tag
                 );
 
                 const data = await response.json();
@@ -443,7 +446,7 @@ export default class MiddleManV2 {
                 excep = excep + '0'
 
                 const response = await fetch (
-                    'https://memas106.000webhostapp.com/maintenance-logs?page=' + page + '&group_length=10&exceptions=' + excep
+                    this.WEBSITENAME + '/maintenance-logs?page=' + page + '&group_length=10&exceptions=' + excep
                 )
 
                 const data = await response.json()
@@ -462,7 +465,7 @@ export default class MiddleManV2 {
         const getEquipment = async () => {
             try {
               const response = await fetch(
-                'https://memas106.000webhostapp.com/equipments/1'
+                this.WEBSITENAME + '/equipments/1'
               );
 
               const data = await response.json();
@@ -482,7 +485,7 @@ export default class MiddleManV2 {
             console.log("Conducting OPtest...")
 
             try {
-                const response = await fetch('https://memas106.000webhostapp.com/post/test', {
+                const response = await fetch(this.WEBSITENAME + '/post/test', {
                     method: 'POST',
                     headers: {
                     'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
