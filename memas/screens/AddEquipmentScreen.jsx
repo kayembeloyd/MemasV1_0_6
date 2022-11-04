@@ -15,15 +15,25 @@ export default function AddEquipmentScreen(){
     const equipment = {}
 
     // Equipment variables
+    // Automatic
     const [id, setID] = useState(0)
     const [oid, setOID] = useState(0)
-    const [name, setName] = useState('')
-    const [assetTag, setAssetTag] = useState('')
     const [createdAt, setCreatedAt] = useState('')
     const [updatedAt, setUpdatedAt] = useState('')
+    // manual
+    const [name, setName] = useState('')
+    const [make, setMake] = useState('')
+    const [model, setModel] = useState('')
+    const [serialNumber, setSerialNumber] = useState('')
+    const [assetTag, setAssetTag] = useState('')
+    const [department, setDepartment] = useState('')
+    const [commisionDate, setCommisionDate] = useState('')
+    const [suppliedBy, setSuppliedBy] = useState('')
     const [technicalSpecifications, setTechnicalSpecifications] = useState([])
+    const [equipmentSpecificEditableInfos, setEquipmentSpecificEditableInfos] = useState([])
 
     const [technicalSpecificationsAddModalVisibility, setTechnicalSpecificationsAddModalVisibility] = useState(false) 
+    const [equipmentSpecificEditableInfosAddModalVisibility, setEquipmentSpecificEditableInfosAddModalVisibility] = useState(false) 
 
     return (
         <View style={styles.container}>
@@ -53,10 +63,43 @@ export default function AddEquipmentScreen(){
                             onChangeText={((t) => {
                                 setName(t)
                             })} />                      
+
+                        <MInput fieldName="Make" fieldInitials="M"
+                            onChangeText={((t) => {
+                                setMake(t)
+                            })} />                                              
+                        
+                        <MInput fieldName="Model" fieldInitials="M"
+                            onChangeText={((t) => {
+                                setModel(t)
+                            })} />                                              
+                        
+                        <MInput fieldName="Serial Number" fieldInitials="SN"
+                            onChangeText={((t) => {
+                                setSerialNumber(t)
+                            })} />                                              
+                        
                         <MInput fieldName="Asset tag" fieldInitials="AT"
                             onChangeText={((t) => {
                                 setAssetTag(t)
+                            })} />       
+                    </MCard>
+
+                    <MCard cardTitle='Other information'>
+                        <MInput fieldName="Department" fieldInitials="EN"
+                            onChangeText={((t) => {
+                                setDepartment(t)
                             })} />                      
+
+                        <MInput fieldName="Commision Date" fieldInitials="M"
+                            onChangeText={((t) => {
+                                setCommisionDate(t)
+                            })} />                                              
+                        
+                        <MInput fieldName="Supplied by" fieldInitials="M"
+                            onChangeText={((t) => {
+                                setSuppliedBy(t)
+                            })} />       
                     </MCard>
 
                     <MCard cardTitle='Technical Specifications'>
@@ -79,6 +122,12 @@ export default function AddEquipmentScreen(){
                             setTechnicalSpecificationsAddModalVisibility(true)
                         }}/> 
                     </MCard>
+
+                    <MCard cardTitle='Equipment Specific editable info'>
+                        <MButton text='add info' onPress={() => {
+
+                        }}/> 
+                    </MCard>
                 </View>
 
                 <View style={styles.buttonContainer}>
@@ -91,12 +140,22 @@ export default function AddEquipmentScreen(){
                         var splitTime = splitDate[1].split(".")
                         var requiredDate = splitDate[0] + " " + splitTime[0]
                     
-                        equipment.name = name
                         equipment.oid = 0
-                        equipment.asset_tag = assetTag
                         equipment.created_at = requiredDate 
                         equipment.updated_at = requiredDate 
+
+                        equipment.name = name
+                        equipment.make = make
+                        equipment.model = model
+                        equipment.serial_number = serialNumber
+                        equipment.asset_tag = assetTag
+
+                        equipment.department = department
+                        equipment.commission_date = commisionDate
+                        equipment.supplied_by = suppliedBy
+                        
                         equipment.technical_specifications = technicalSpecifications
+                        // equipment.equipmentSpecificEditableInfos = equipmentSpecificEditableInfos
                         
                         MiddleManV2.LSaveEquipmentsPush(equipment).then((d) => {
                             console.log(d + ": Starting to sync")
