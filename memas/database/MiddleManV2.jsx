@@ -94,9 +94,37 @@ export default class MiddleManV2 {
         })
     }
 
+    static LSaveDepartmentsReset(departments) {
+        return new Promise((resolve, reject) => {
+            const removeValue = async () => {
+                try {
+                  await AsyncStorage.removeItem('departments')
+                } catch(e) {
+                  // remove error
+                }          
+            }
+    
+            removeValue().then(
+                () => {
+                    this.LSaveData('departments', departments).then(() => {
+                        resolve('saved data')
+                    })
+                }
+            )
+        })
+    }
+
     // Public Local Promise
     static LGetEquipments() {
         return this.LGetData('equipments')
+    }
+
+    static LGetMaintenanceLogs() {
+        return this.LGetData('maintenance_logs')
+    }
+
+    static LGetDepartments() {
+        return this.LGetData('departments')
     }
 
     // Public Local
@@ -114,6 +142,28 @@ export default class MiddleManV2 {
                         equipments.push(equipmentCopy)
     
                         this.LSaveEquipmentsReset(equipments)
+                    })
+
+                    resolve('equipment added')
+                }
+            )
+        })
+    }
+
+    static LSaveMaintenanceLogPush(maintenance_log) {
+        return new Promise((resolve, reject) => {
+            this.LGetMaintenanceLogs().then(
+                (d) => {
+                    const maintenance_logs = d !== null ? d : []
+                    const maintenance_log_copy = maintenance_log
+                    
+                    this.LGetLastMaintenanceLogID().then((d) => {
+                        maintenance_log_copy.id = d + 1
+                        this.LSetLastMaintenanceLogID(maintenance_log_copy.id)
+    
+                        maintenance_logs.push(maintenance_log_copy)
+    
+                        this.LSaveMaintenanceLogsReset(maintenance_logs)
                     })
 
                     resolve('equipment added')
@@ -152,65 +202,6 @@ export default class MiddleManV2 {
         })
     }
 
-    // Public Local
-    static LUpdateEquipment(equipment) {
-        return new Promise((resolve, reject) => {
-            this.LGetEquipments().then((d) => {
-                const equipments = d !== null ? d : []
-    
-                const original_equipment_index = equipments.findIndex(original_equipment => original_equipment.id === equipment.id)
-    
-                equipments[original_equipment_index] = equipment
-    
-                this.LSaveEquipmentsReset(equipments).then(() => {
-                    resolve('updated')
-                })
-            })
-        })
-    }
-
-    static LUpdateMaintenanceLog(maintenanceLog){
-        return new Promise((resolve, reject) => {
-            this.LGetMaintenanceLogs().then((d) => {
-                const maintenance_logs = d !== null ? d : []
-    
-                const original_maintenance_log_index = maintenance_logs.findIndex(original_maintenance_log => original_maintenance_log.id === maintenanceLog.id)
-    
-                maintenance_logs[original_maintenance_log_index] = maintenanceLog
-    
-                this.LSaveMaintenanceLogsReset(maintenance_logs).then(() => {
-                    resolve('updated')
-                })
-            })
-        })
-    }
-
-    static LGetMaintenanceLogs() {
-        return this.LGetData('maintenance_logs')
-    }
-
-    static LSaveMaintenanceLogPush(maintenance_log) {
-        return new Promise((resolve, reject) => {
-            this.LGetMaintenanceLogs().then(
-                (d) => {
-                    const maintenance_logs = d !== null ? d : []
-                    const maintenance_log_copy = maintenance_log
-                    
-                    this.LGetLastMaintenanceLogID().then((d) => {
-                        maintenance_log_copy.id = d + 1
-                        this.LSetLastMaintenanceLogID(maintenance_log_copy.id)
-    
-                        maintenance_logs.push(maintenance_log_copy)
-    
-                        this.LSaveMaintenanceLogsReset(maintenance_logs)
-                    })
-
-                    resolve('equipment added')
-                }
-            )
-        })
-    }
-
     static LSaveMaintenanceLogsPushRage(maintenance_logs_in) {
         return new Promise((resolve, reject) => {
             this.LGetMaintenanceLogs().then((d) => {
@@ -241,6 +232,39 @@ export default class MiddleManV2 {
                     resolve(maintenance_logs)
                 }
             
+            })
+        })
+    }
+
+    // Public Local
+    static LUpdateEquipment(equipment) {
+        return new Promise((resolve, reject) => {
+            this.LGetEquipments().then((d) => {
+                const equipments = d !== null ? d : []
+    
+                const original_equipment_index = equipments.findIndex(original_equipment => original_equipment.id === equipment.id)
+    
+                equipments[original_equipment_index] = equipment
+    
+                this.LSaveEquipmentsReset(equipments).then(() => {
+                    resolve('updated')
+                })
+            })
+        })
+    }
+
+    static LUpdateMaintenanceLog(maintenanceLog){
+        return new Promise((resolve, reject) => {
+            this.LGetMaintenanceLogs().then((d) => {
+                const maintenance_logs = d !== null ? d : []
+    
+                const original_maintenance_log_index = maintenance_logs.findIndex(original_maintenance_log => original_maintenance_log.id === maintenanceLog.id)
+    
+                maintenance_logs[original_maintenance_log_index] = maintenanceLog
+    
+                this.LSaveMaintenanceLogsReset(maintenance_logs).then(() => {
+                    resolve('updated')
+                })
             })
         })
     }
@@ -416,25 +440,6 @@ export default class MiddleManV2 {
         return loadEquipments(page, exceptions);
     }
 
-    static OLoadEquipmentAssetTag(asset_tag) {
-        const loadEquipmentAssetTag = async (asset_tag) => {
-            try {
-                const response = await fetch(
-                    this.WEBSITENAME + '/equipments/asset-tag/' + asset_tag
-                );
-
-                const data = await response.json();
-
-                return data;
-            } catch (error) {
-                console.error(error);
-                return null;
-            }
-        }
-
-        return loadEquipmentAssetTag(asset_tag);
-    }
-
     static OLoadMoreMaintenanceLogs(page, exceptions) {
         const loadMaintenanceLogs = async (page, exceptions) => {
             try {
@@ -460,6 +465,48 @@ export default class MiddleManV2 {
 
         return loadMaintenanceLogs(page, exceptions)
     }
+
+    static OLoadMoreDepartments() {
+        const loadDepartments = async () => {
+            try {
+                
+                const response = await fetch (
+                    this.WEBSITENAME + '/departments'
+                )
+
+                const data = await response.json()
+
+                return data
+            } catch (error) {
+                console.error(error)
+                return null
+            }
+        }
+
+        return loadDepartments()
+    }
+
+    static OLoadEquipmentAssetTag(asset_tag) {
+        const loadEquipmentAssetTag = async (asset_tag) => {
+            try {
+                const response = await fetch(
+                    this.WEBSITENAME + '/equipments/asset-tag/' + asset_tag
+                );
+
+                const data = await response.json();
+
+                return data;
+            } catch (error) {
+                console.error(error);
+                return null;
+            }
+        }
+
+        return loadEquipmentAssetTag(asset_tag);
+    }
+
+
+
 
     static OTest(){
         const getEquipment = async () => {

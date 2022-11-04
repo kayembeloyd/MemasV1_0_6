@@ -1,10 +1,50 @@
-import React from 'react'
-import { StyleSheet, ScrollView, View } from 'react-native';
+import React, { useEffect, useState } from 'react'
+import { StyleSheet, ScrollView, View, FlatList } from 'react-native';
 import MSearchBar from '../components/custom/MSearchBar';
 
 import DepartmentItem from '../components/DepartmentItem';
+import MiddleManV2 from '../database/MiddleManV2';
 
 export default function DepartmentsScreen({ navigation }){
+
+    const[departments, setDepartments] = useState([])
+
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            console.log('Departments screen loaded')
+
+            console.log('Getting local departments...')
+            MiddleManV2.LGetDepartments().then((d) => {
+                console.log('Local departments = ', d)
+
+                // set departments
+                d !== null ? setDepartments(d) : setDepartments([])
+
+                console.log('Getting departments from the web...')
+
+                MiddleManV2.OLoadMoreDepartments().then((dd) => {
+                    console.log('Departments from the web = ', dd)
+
+                    if (dd){
+                        MiddleManV2.LSaveDepartmentsReset(dd).then((ddd) => {
+                            console.log(ddd)  
+                        })
+
+                        // set departments
+                        dd !== null ? setDepartments(dd) : setDepartments([])
+                    }
+                })
+
+
+            })
+
+
+           
+        });
+
+        return unsubscribe;
+    }, [ navigation ]);
+
     return (
         <View style={styles.container}> 
 
@@ -13,34 +53,13 @@ export default function DepartmentsScreen({ navigation }){
                     <MSearchBar hint='search departments' onPress={() => {navigation.navigate('DepartmentSearchScreen');}} placeHolder={"Search department"}/>
                 </View>
                 <View style={styles.departmentscontainer}>
-                    <DepartmentItem fontAwesone5IconName="hospital" text="Last one"/>
-                    <DepartmentItem fontAwesone5IconName="hospital" text="First one"/>
-                    <DepartmentItem fontAwesone5IconName="hospital" text="First one"/>
-                    <DepartmentItem fontAwesone5IconName="hospital" text="First one"/>
-                    <DepartmentItem fontAwesone5IconName="hospital" text="First one"/>
-                    <DepartmentItem fontAwesone5IconName="hospital" text="First one"/>
-                    <DepartmentItem fontAwesone5IconName="hospital" text="First one"/>
-                    <DepartmentItem fontAwesone5IconName="hospital" text="First one"/>
-                    <DepartmentItem fontAwesone5IconName="hospital" text="First one"/>
-                    <DepartmentItem fontAwesone5IconName="hospital" text="First one"/>
-                    <DepartmentItem fontAwesone5IconName="hospital" text="First one"/>
-                    <DepartmentItem fontAwesone5IconName="hospital" text="First one"/>
-                    <DepartmentItem fontAwesone5IconName="hospital" text="First one"/>
-                    <DepartmentItem fontAwesone5IconName="hospital" text="First one"/>
-                    <DepartmentItem fontAwesone5IconName="hospital" text="First one"/>
-                    <DepartmentItem fontAwesone5IconName="hospital" text="First one"/>
-                    <DepartmentItem fontAwesone5IconName="hospital" text="First one"/>
-                    <DepartmentItem fontAwesone5IconName="hospital" text="First one"/>
-                    <DepartmentItem fontAwesone5IconName="hospital" text="First one"/>
-                    <DepartmentItem fontAwesone5IconName="hospital" text="First one"/>
-                    <DepartmentItem fontAwesone5IconName="hospital" text="First one"/>
-                    <DepartmentItem fontAwesone5IconName="hospital" text="First one"/>
-                    <DepartmentItem fontAwesone5IconName="hospital" text="First one"/>
-                    <DepartmentItem fontAwesone5IconName="hospital" text="First one"/>
-                    <DepartmentItem fontAwesone5IconName="hospital" text="First one"/>
-                    <DepartmentItem fontAwesone5IconName="hospital" text="First one"/>
-                    <DepartmentItem fontAwesone5IconName="hospital" text="First one"/>
-                    <DepartmentItem fontAwesone5IconName="hospital" text="Last one"/>
+                    <FlatList 
+                        data={departments}
+                        keyExtractor={(item) => item.id}
+                        renderItem={({ item }) => (
+                            <DepartmentItem fontAwesone5IconName="hospital" text={ item.name }/>
+                        )}
+                    /> 
                 </View>
             </ScrollView>
         </View>
