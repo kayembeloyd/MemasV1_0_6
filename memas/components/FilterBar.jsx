@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, View, Text, TouchableOpacity, ScrollView, FlatList } from "react-native";
 
 export default function FilterBar({ filterItems, onItemPress }) {
+
     return (
         <View style={styles.container}>
             <ScrollView style={styles.scrollView} horizontal={true} showsHorizontalScrollIndicator={false}>
@@ -9,8 +10,11 @@ export default function FilterBar({ filterItems, onItemPress }) {
                     <FlatList 
                         keyExtractor={(item) => (item.id)}
                         data={filterItems}
+
                         renderItem={({ item }) => (
-                            <TouchableOpacity onPress={onItemPress}>
+                            <TouchableOpacity onPress={ () => {
+                                onItemPress(item)
+                            }}>
                                 <View style={styles.filterItem}>
                                     <Text style={styles.filterItemKey}>{item.key}</Text>
                                     <Text style={styles.filterItemValue}>{item.values[0]}</Text>
