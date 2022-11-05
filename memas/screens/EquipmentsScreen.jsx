@@ -60,8 +60,6 @@ export default function EquipmentsScreen({ navigation }){
                             
                         })
                     }
-
-                    
                 })
             })
         });
@@ -76,7 +74,7 @@ export default function EquipmentsScreen({ navigation }){
                     <MSearchBar hint='search equipment'/>
                     <MButton text='add equipment' onPress={addEquipmentOnPressHandler}/>
                 </View>
-                <FilterBar filterItems={filterItems}/>
+                <FilterBar filterItems={filterItems} onItemPress={() => ( console.log('item pressed') )}/>
                 <View style={styles.equipments}>
                     <FlatList 
                         data={equipments}
