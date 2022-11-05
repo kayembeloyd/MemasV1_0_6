@@ -43,13 +43,50 @@ export default function EquipmentsScreen({ navigation }){
         navigation.navigate('EquipmentScreen', {item}); 
     }
 
+    const filter = (allEquipment) => {
+        var filteredEquipments = []
+
+        // Department filter
+        if (filterItems[0].values[0] === 'all'){
+            if (allEquipment){
+                filteredEquipments = allEquipment
+            }
+        } else {
+            if (allEquipment){
+                allEquipment.forEach(element => {
+                    if (element.department === filterItems[0].values[0]){
+                        filteredEquipments.push(element)
+                    }
+                });
+            }
+        }
+
+        // Make Filter
+        if (filterItems[1].values[0] === 'all'){
+        } else {
+            var t = []
+            filteredEquipments.forEach(element => {
+                if (element.make === filterItems[1].values[0]){
+                    t.push(element)
+                }
+            });
+            filteredEquipments = t
+        }
+
+        return filteredEquipments
+    }
+
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
             console.log('Getting local equipments...')
             MiddleManV2.LGetEquipments().then((d) => {
                 console.log('Local equipments = ', d)
                 console.log('Updating State of equipments in app...')
+
                 d !== null ? setEquipments(d) : setEquipments([]);
+
+                setEquipments(filter(d))
+
                 console.log('State of equipments updated')
                 
                 console.log('Making exceptions for a server request...')
@@ -75,6 +112,9 @@ export default function EquipmentsScreen({ navigation }){
                             console.log('New equipments: ', newEquips)
                             console.log('Trying to update state...')
                             newEquips !== null ? setEquipments(newEquips) : setEquipments([]);
+
+                            setEquipments(filter(newEquips))
+
                             console.log('State updated')
                             
                         })
@@ -120,6 +160,10 @@ export default function EquipmentsScreen({ navigation }){
                                 return oldFilterItemsCopy
                             })
                             setDepartmentsFilterModalVisibility(false)
+                            
+                            MiddleManV2.LGetEquipments().then((d) => {
+                                setEquipments(filter(d))
+                            })
                         }}
                         onCancelPress={()=>{ setDepartmentsFilterModalVisibility(false) }} />
                 </Modal>
@@ -135,6 +179,10 @@ export default function EquipmentsScreen({ navigation }){
                                 return oldFilterItemsCopy
                             })
                             setMakesFilterModalVisibility(false)
+
+                            MiddleManV2.LGetEquipments().then((d) => {
+                                setEquipments(filter(d))
+                            })
                         }}
                         onCancelPress={()=>{ setMakesFilterModalVisibility(false) }} />
                 </Modal>
@@ -146,9 +194,6 @@ export default function EquipmentsScreen({ navigation }){
                         selectPress={(selectedIndex) => {
                             setFilterItems((oldFilterItems) => {
                                 var oldFilterItemsCopy = oldFilterItems
-                                console.log("!!!DEBUG!!!")
-                                console.log('oldFilterItemsCopy: ', oldFilterItemsCopy)
-                                console.log("!!!DEBUG!!!")
                                 oldFilterItemsCopy[2].values[0] = statuses[selectedIndex].name
                                 return oldFilterItemsCopy
                             })

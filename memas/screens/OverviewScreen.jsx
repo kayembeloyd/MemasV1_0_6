@@ -34,6 +34,17 @@ export default function OverViewScreen({ navigation }){
                     console.log("Syncing with the online database");    
                     MiddleManV2.Sync().then(() => { console.log("Synchronization 1 complete"); })
                     MiddleManV2.Sync2().then(() => { console.log("Synchronization 2 complete"); })
+
+                    // Sync 3
+                    MiddleManV2.OLoadMoreDepartments().then((dd) => {
+                        console.log('Departments from the web = ', dd)
+
+                        if (dd){
+                            MiddleManV2.LSaveDepartmentsReset(dd).then((ddd) => {
+                                console.log(ddd)  
+                            })
+                        }
+                    })
                 }
             });
         });
