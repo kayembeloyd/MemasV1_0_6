@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { FlatList, ScrollView, StyleSheet, View } from 'react-native';
+import { FlatList, Modal, ScrollView, StyleSheet, View } from 'react-native';
 import MButton from '../components/custom/MButton';
+import MListModal from '../components/custom/MListModal';
 
 import MSearchBar from '../components/custom/MSearchBar';
 import EquipmentItem from '../components/EquipmentItem';
@@ -9,15 +10,17 @@ import MiddleMan from '../database/MiddleMan';
 import MiddleManV2 from '../database/MiddleManV2';
 
 export default function EquipmentsScreen({ navigation }){
-    const filterItems = [
-        { id:1, key:'Department', values:[ 'all', 'dept 1', 'dept 5']},
-        { id:2, key:'Make', values:[ 'all', 'working'] },            
-        { id:3, key:'Status', values:[ 'all', 'working'] },            
-        { id:4, key:'Status', values:[ 'all', 'working'] },            
-        { id:5, key:'Status', values:[ 'all', 'working'] },            
-    ]
+    const [filterItems, setFilterItems] = useState([
+        { id:1, key:'Department', values:[ 'all' ]},
+        { id:2, key:'Make', values:[ 'all' ] },            
+        { id:3, key:'Status', values:[ 'all' ] },            
+    ])
 
+    const [activeDepartmentFilter, setActiveDepartmentFilter] = useState('all')
+
+    const [departments, setDepartments] = useState([])
     const [equipments, setEquipments] = useState([]) 
+    const [departmentsFilterModalVisibility, setDepartmentsFilterModalVisibility] = useState(false)
 
     const addEquipmentOnPressHandler = () => { navigation.navigate('AddEquipmentScreen'); }
     const equipmentItemOnPressHandler = (item) => {
@@ -26,6 +29,7 @@ export default function EquipmentsScreen({ navigation }){
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
+            
             console.log('Getting local equipments...')
             MiddleManV2.LGetEquipments().then((d) => {
                 console.log('Local equipments = ', d)
@@ -62,6 +66,26 @@ export default function EquipmentsScreen({ navigation }){
                     }
                 })
             })
+
+            console.log('Getting local departments')
+            MiddleManV2.LGetDepartments().then((d) => {
+
+                var dCopy = [];
+
+                dCopy.push({
+                    id: '0',
+                    name: 'all',
+                    oid: '0'
+                })
+
+                d.forEach(element => {
+                    dCopy.push(element)
+                });
+
+                console.log('dCopy: ', dCopy)
+                
+                dCopy !== null ? setDepartments(dCopy) : setDepartments([])
+            })
         });
 
         return unsubscribe;
@@ -70,11 +94,41 @@ export default function EquipmentsScreen({ navigation }){
     return (
         <View style={styles.mainContainer}>
             <ScrollView stickyHeaderIndices={[1]} stickyHeaderHiddenOnScroll={true}>
+                
+                <Modal visible={departmentsFilterModalVisibility}>
+                    <MListModal
+                        title="Select Department"
+                        items={departments}
+                        selectPress={(selectedIndex) => {
+                            setFilterItems((oldFilterItems) => {
+                                var oldFilterItemsCopy = oldFilterItems
+                                oldFilterItems[0].values[0] = departments[selectedIndex].name
+                                return oldFilterItemsCopy
+                            })
+                            // setActiveDepartmentFilter(departments[selectedIndex])
+                            setDepartmentsFilterModalVisibility(false)
+                        }}
+                        onCancelPress={()=>{ setDepartmentsFilterModalVisibility(false) }}
+                    />
+                </Modal>
+
+
                 <View style={styles.container}>
                     <MSearchBar hint='search equipment'/>
                     <MButton text='add equipment' onPress={addEquipmentOnPressHandler}/>
                 </View>
-                <FilterBar filterItems={filterItems} onItemPress={() => ( console.log('item pressed') )}/>
+                <FilterBar filterItems={filterItems} onItemPress={(filterItem) => {
+                    switch (filterItem.key) {
+                        case 'Department':
+                            console.log('Loaded departments : ', departments)
+                            setDepartmentsFilterModalVisibility(true)
+                            break;
+                        default:
+                            console.log("Other button pressed")
+                            break;
+s                   } 
+                 }}/>
+
                 <View style={styles.equipments}>
                     <FlatList 
                         data={equipments}
