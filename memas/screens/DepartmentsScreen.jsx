@@ -9,6 +9,12 @@ export default function DepartmentsScreen({ navigation }){
 
     const[departments, setDepartments] = useState([])
 
+    const fxn = () => {
+        if (2 == 2){
+            return <DepartmentItem fontAwesone5IconName='hospital' text='zinthu zake'/>
+        }
+    }
+
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
             console.log('Departments screen loaded')
@@ -34,12 +40,7 @@ export default function DepartmentsScreen({ navigation }){
                         dd !== null ? setDepartments(dd) : setDepartments([])
                     }
                 })
-
-
             })
-
-
-           
         });
 
         return unsubscribe;
@@ -47,19 +48,20 @@ export default function DepartmentsScreen({ navigation }){
 
     return (
         <View style={styles.container}> 
-
             <ScrollView style={styles.scrollView}>
                 <View style={{alignSelf:'center', width: '100%', alignItems: 'center'}}>
                     <MSearchBar hint='search departments' onPress={() => {navigation.navigate('DepartmentSearchScreen');}} placeHolder={"Search department"}/>
                 </View>
                 <View style={styles.departmentscontainer}>
-                    <FlatList 
-                        data={departments}
-                        keyExtractor={(item) => item.id}
-                        renderItem={({ item }) => (
-                            <DepartmentItem fontAwesone5IconName="hospital" text={ item.name }/>
-                        )}
-                    /> 
+                    {
+                        departments.map((department) => {
+                            return (
+                                <View key={department.id}>
+                                    <DepartmentItem fontAwesone5IconName='hospital' text={department.name}/>
+                                </View>
+                            )
+                        })
+                    }
                 </View>
             </ScrollView>
         </View>
