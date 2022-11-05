@@ -117,6 +117,7 @@ export default function EquipmentsScreen({ navigation }){
                     <MSearchBar hint='search equipment'/>
                     <MButton text='add equipment' onPress={addEquipmentOnPressHandler}/>
                 </View>
+                
                 <FilterBar filterItems={filterItems} onItemPress={(filterItem) => {
                     switch (filterItem.key) {
                         case 'Department':
@@ -126,7 +127,7 @@ export default function EquipmentsScreen({ navigation }){
                         default:
                             console.log("Other button pressed")
                             break;
-s                   } 
+                   } 
                  }}/>
 
                 <View style={styles.equipments}>
