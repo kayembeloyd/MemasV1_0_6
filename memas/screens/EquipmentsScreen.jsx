@@ -16,11 +16,27 @@ export default function EquipmentsScreen({ navigation }){
         { id:3, key:'Status', values:[ 'all' ] },            
     ])
 
-    const [activeDepartmentFilter, setActiveDepartmentFilter] = useState('all')
+    const [makes, setMakes] = useState([
+        {id: 0, name:'all'},
+        {id: 1, name:'CANTA'},
+        {id: 2, name:'DevBliss'},
+        {id: 3, name:'Oxy life'},
+        {id: 4, name:'New Life Intensity'},
+    ])
+
+    const [statuses, setStatuses] = useState([
+        {id: 0, name:'all'},
+        {id: 1, name:'working'},
+        {id: 2, name:'idle'},
+        {id: 3, name:'faulty'},
+    ])
 
     const [departments, setDepartments] = useState([])
     const [equipments, setEquipments] = useState([]) 
+    
     const [departmentsFilterModalVisibility, setDepartmentsFilterModalVisibility] = useState(false)
+    const [makesFilterModalVisibilty, setMakesFilterModalVisibility] = useState(false)
+    const [statusesFilterModalVisibilty, setStatusesFilterModalVisibility] = useState(false)
 
     const addEquipmentOnPressHandler = () => { navigation.navigate('AddEquipmentScreen'); }
     const equipmentItemOnPressHandler = (item) => {
@@ -29,7 +45,6 @@ export default function EquipmentsScreen({ navigation }){
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
-            
             console.log('Getting local equipments...')
             MiddleManV2.LGetEquipments().then((d) => {
                 console.log('Local equipments = ', d)
@@ -69,7 +84,6 @@ export default function EquipmentsScreen({ navigation }){
 
             console.log('Getting local departments')
             MiddleManV2.LGetDepartments().then((d) => {
-
                 var dCopy = [];
 
                 dCopy.push({
@@ -102,27 +116,65 @@ export default function EquipmentsScreen({ navigation }){
                         selectPress={(selectedIndex) => {
                             setFilterItems((oldFilterItems) => {
                                 var oldFilterItemsCopy = oldFilterItems
-                                oldFilterItems[0].values[0] = departments[selectedIndex].name
+                                oldFilterItemsCopy[0].values[0] = departments[selectedIndex].name
                                 return oldFilterItemsCopy
                             })
-                            // setActiveDepartmentFilter(departments[selectedIndex])
                             setDepartmentsFilterModalVisibility(false)
                         }}
-                        onCancelPress={()=>{ setDepartmentsFilterModalVisibility(false) }}
-                    />
+                        onCancelPress={()=>{ setDepartmentsFilterModalVisibility(false) }} />
                 </Modal>
 
+                <Modal visible={makesFilterModalVisibilty}>
+                    <MListModal
+                        title="Select Make"
+                        items={makes}
+                        selectPress={(selectedIndex) => {
+                            setFilterItems((oldFilterItems) => {
+                                var oldFilterItemsCopy = oldFilterItems
+                                oldFilterItemsCopy[1].values[0] = makes[selectedIndex].name
+                                return oldFilterItemsCopy
+                            })
+                            setMakesFilterModalVisibility(false)
+                        }}
+                        onCancelPress={()=>{ setMakesFilterModalVisibility(false) }} />
+                </Modal>
+
+                <Modal visible={statusesFilterModalVisibilty}>
+                    <MListModal
+                        title="Select Status"
+                        items={statuses}
+                        selectPress={(selectedIndex) => {
+                            setFilterItems((oldFilterItems) => {
+                                var oldFilterItemsCopy = oldFilterItems
+                                console.log("!!!DEBUG!!!")
+                                console.log('oldFilterItemsCopy: ', oldFilterItemsCopy)
+                                console.log("!!!DEBUG!!!")
+                                oldFilterItemsCopy[2].values[0] = statuses[selectedIndex].name
+                                return oldFilterItemsCopy
+                            })
+                            setStatusesFilterModalVisibility(false)
+                        }}
+                        onCancelPress={()=>{ setStatusesFilterModalVisibility(false) }} />
+                </Modal>
 
                 <View style={styles.container}>
                     <MSearchBar hint='search equipment'/>
                     <MButton text='add equipment' onPress={addEquipmentOnPressHandler}/>
                 </View>
-                
+
                 <FilterBar filterItems={filterItems} onItemPress={(filterItem) => {
                     switch (filterItem.key) {
                         case 'Department':
                             console.log('Loaded departments : ', departments)
                             setDepartmentsFilterModalVisibility(true)
+                            break;
+                        case 'Make':
+                            console.log('Loaded makes : ', makes)
+                            setMakesFilterModalVisibility(true)
+                            break;
+                        case 'Status':
+                            console.log('Loaded statuses : ', statuses)
+                            setStatusesFilterModalVisibility(true)
                             break;
                         default:
                             console.log("Other button pressed")
