@@ -19,7 +19,7 @@ export default function EquipmentScreen({ route, navigation }){
                 
                 <QRCode
                     style={{margin:10, width: 63, height: 63, margin: 10}}
-                    value={item.asset_tag} />
+                    value={'MEMASCODE:' + item.asset_tag} />
                 
                 <Text style={{ fontSize: 16}}>{item.asset_tag}</Text>
             </View>

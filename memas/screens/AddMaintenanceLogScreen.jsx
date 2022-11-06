@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import QRCode from 'react-native-qrcode-svg';
 
 import MCard from '../components/custom/MCard';
 import MInput from '../components/custom/MInput';
@@ -18,23 +19,44 @@ export default function AddMaintenanceLogScreen({ route, navigation }){
     return (
         <ScrollView>
             <View style={styles.container}>
-                <Text>Add Maintenance Log Screen  @{ maintenanceType }</Text>
+                <Text>Add Maintenance Log Screen @{ maintenanceType }</Text>
                 <View style={styles.cardsContainer}>
                     <MCard cardTitle="Information">
                         <View style={{margin: 10,}}>
-                            <Text style={{ fontSize: 18}}> {equipment.name} </Text>
-                            <Text style={{ marginTop: 5, fontSize: 16}}>Canta (Model: VN-WS-08)</Text>
-                            <Image source={require('../assets/sample-qr-code.png')} style={{width: 63, height: 63, margin: 10}}/>
+                            <Text style={{ fontSize: 18}}>{equipment.name}</Text>
+                            <Text style={{ marginTop: 5, fontSize: 16}}>{equipment.make} (Model: {equipment.model})</Text>
+                            <QRCode
+                                style={{margin:10, width: 63, height: 63, margin: 10}}
+                                value={'MEMASCODE:' + equipment.asset_tag} />
                             <Text style={{ fontSize: 16}}> {equipment.asset_tag} </Text>
                         </View>
 
-                        <View style={{marginVertical: 10,}}>
+                        <View style={{marginVertical: 10}}>
                             <View style={{flexDirection: 'row'}}>
-                                <Text style={{ fontWeight: 'bold', fontSize: 18 }}>Information</Text>
+                                <Text style={{ fontWeight: 'bold', fontSize: 18 }}>General Information</Text>
                                 <MaterialIcons name="edit" size={18} color="black" style={{marginHorizontal: 10}} />
                             </View>
-                            <Text style={{fontWeight: '500'}}>Oxygen Concentration: <Text style={{fontWeight:'300'}}>dfewf</Text></Text>
-                            <Text style={{fontWeight: '500'}}>Hour meter: <Text style={{fontWeight:'300'}}>dfewf</Text></Text>
+                            <Text style={{fontWeight: '500'}}>Name: <Text style={{fontWeight:'300'}}>{equipment.name}</Text></Text>
+                            <Text style={{fontWeight: '500'}}>Make: <Text style={{fontWeight:'300'}}>{equipment.make}</Text></Text>
+                            <Text style={{fontWeight: '500'}}>Model: <Text style={{fontWeight:'300'}}>{equipment.model}</Text></Text>
+                            <Text style={{fontWeight: '500'}}>Department: <Text style={{fontWeight:'300'}}>{equipment.department}</Text></Text>
+                        </View>
+
+                        <View style={{marginVertical: 10}}>
+                            <View style={{flexDirection: 'row'}}>
+                                <Text style={{ fontWeight: 'bold', fontSize: 18 }}>Technical Specifications</Text>
+                                <MaterialIcons name="edit" size={18} color="black" style={{marginHorizontal: 10}} />
+                            </View>
+                            {
+                                equipment.technical_specifications.map((technical_specification) => {
+                                    return (
+                                        <Text key={technical_specification.id} style={{fontWeight: '500'}}>
+                                            {technical_specification.specification_name}: 
+                                            <Text style={{fontWeight:'300'}}>{technical_specification.specification_value}</Text>
+                                        </Text>
+                                    )
+                                })
+                            }
                         </View>
                     </MCard>
                     <MCard cardTitle='Maintenance description'>
