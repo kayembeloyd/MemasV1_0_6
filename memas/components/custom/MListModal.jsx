@@ -17,7 +17,7 @@ export default function MListModal({ title, items, selectPress, onCancelPress })
                             keyExtractor={(item) => item.id}
                             renderItem={({ item }) => (
                                 <TouchableOpacity onPress={ () => { selectPress(item.id) }}>        
-                                    <View style={{padding: 10, margin: 2, backgroundColor:'red'}}><Text> {item.name} </Text></View>
+                                    <View style={{paddingVertical: 15, paddingHorizontal: 5, marginVertical: 5, borderBottomWidth: 1, borderBottomColor: 'grey'}}><Text> {item.name} </Text></View>
                                 </TouchableOpacity>
                             )}
                         />
@@ -45,18 +45,18 @@ const styles = StyleSheet.create({
 
     content: {
         width: '100%', 
-        maxWidth: 400,
+        maxWidth: 600,
+        minWidth: 350,
         alignContent:'center',
         justifyContent: 'center',
         flexDirection: 'row', 
         backgroundColor: 'grey', 
-        flexWrap: 'wrap',
+        paddingHorizontal: 10,
         paddingVertical: 10,
-        paddingHorizontal: 25,
         marginVertical: 10,
         borderRadius: 10,
         elevation: 5,
-        flexDirection:'column'
+        flexDirection:'column',
     }, 
 
     buttons: {
@@ -67,6 +67,7 @@ const styles = StyleSheet.create({
         minWidth: 300,
         maxWidth: 600,
         alignSelf: 'center', 
+        marginTop: 10,
     },
 
     title:{

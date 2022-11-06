@@ -14,9 +14,9 @@ export default function EquipmentScreen({ route, navigation }){
         <View style={styles.container}>
             <View style={{margin: 10,}}>
                 <Text style={{ fontSize: 18}}>{item.name} ({item.asset_tag})</Text>
-                <Text style={{ marginTop: 5, fontSize: 16}}>Canta (Model: VN-WS-08)</Text>
+                <Text style={{ marginTop: 5, fontSize: 16}}>{item.make} (Model: {item.model})</Text>
                 <Image source={require('../assets/sample-qr-code.png')} style={{width: 63, height: 63, margin: 10}}/>
-                <Text style={{ fontSize: 16}}>M01-0001</Text>
+                <Text style={{ fontSize: 16}}>{item.asset_tag}</Text>
             </View>
 
             <ScrollView>
