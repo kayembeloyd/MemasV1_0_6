@@ -1,12 +1,12 @@
 import React from "react";
 import { StyleSheet, View, Text } from "react-native";
 
-export default function MFrozenInput(){
+export default function MFrozenInput({title, text}){
 
     return (
         <View style={styles.container}>
-            <Text>Serviced on</Text>
-            <Text style={{fontWeight:'300', marginTop:2}}>22-09-2022</Text>
+            <Text>{title}</Text>
+            <Text style={{fontWeight:'300', marginTop:2}}>{text}</Text>
         </View>
     )
 }
